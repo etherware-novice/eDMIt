@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# bmake compile dir
+obj/
+# testing files n stuff
+*.png
+*.dmi
