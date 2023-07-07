@@ -25,6 +25,11 @@ MagickWand *eLoadImg( const char *path )
 	return mw;
 }
 
+void resizeWand( MagickWand *mw, unsigned xNew, unsigned yNew )
+{
+	MagickExtentImage( mw, xNew, yNew, 0, 0 );
+}
+
 void addSize( MagickWand *mw, int xMov, int yMov )
 {
 	size_t x, y;
@@ -36,7 +41,7 @@ void addSize( MagickWand *mw, int xMov, int yMov )
 	if( yMov < 0 && yMov * -1 > y ) y = 1;
 	else y += yMov;
 
-	MagickExtentImage( mw, x, y, 0, 0 );
+	resizeWand( mw, x, y );
 }
 
 void multSize( MagickWand *mw, double xMov, double yMov )
@@ -53,7 +58,7 @@ void multSize( MagickWand *mw, double xMov, double yMov )
 	if( calc < 0 ) y = 1;
 	else y = calc;
 
-	MagickExtentImage( mw, x, y, 0, 0 );
+	resizeWand( mw, x, y );
 }
 
 MagickWand *appendImg( MagickWand *dst, MagickWand *src, unsigned x, unsigned y, unsigned width, unsigned height )

@@ -58,6 +58,7 @@ char *sncatf( char *str, const char *format, ... );		// takes a MALLOCED char ar
 
 // imagewand.c - image manipulation with imagemagick
 MagickWand *eLoadImg( const char *path );									// loads image at path into wand, returns
+void resizeWand( MagickWand *mw, unsigned xNew, unsigned yNew );						// resizes mw to xnew, ynew
 void addSize( MagickWand *mw, int xMov, int yMov );								// adds xmov and ymov to size of wand
 void multSize( MagickWand *mw, double xMov, double yMov );							// multiplies current x and y of wand by xmov/ymov
 MagickWand *appendImg( MagickWand *dst, MagickWand *src, unsigned x, unsigned y, unsigned width, unsigned height );	// appends rectangle from src to bottom right of dst, or makes a new image if dst is NULL
