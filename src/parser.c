@@ -85,7 +85,7 @@ void newStateEnt( const char *start )
 			newEnt->name[0] = '\0';
 			return;
 		}
-		newEnt->name[offset] = start[offset];
+		if( offset < MAXNAME - 1 ) newEnt->name[offset] = start[offset];
 	}
 	newEnt->name[offset] = '\0';
 
