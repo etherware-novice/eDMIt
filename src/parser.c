@@ -29,13 +29,13 @@ void loadStateTable( const char *path )
 	if( target == NULL ) { errno = ENOENT; return; };
 
 	fseek( target, 0x10, SEEK_SET );	// skips to width bytes
-	pngwidth = fnibtou( target, true );
-	pngheight = fnibtou( target, true );
+	pngwidth = freadu32( target, true );
+	pngheight = freadu32( target, true );
 
 	if( !searchASCII(target, CHUNK) ) { errno = EOPNOTSUPP; return; };
 
 	fseek(target, -8, SEEK_CUR);
-	uint32_t chunkSize = fnibtou( target, true );
+	uint32_t chunkSize = freadu32( target, true );
 
 	fseek(target, 4, SEEK_CUR);
 	while(( cur = fgetc(target) ) != '\0') if( i < MAXNAME - 1 ) header[i++] = cur;

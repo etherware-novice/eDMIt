@@ -67,7 +67,7 @@ void writeStateTable( const char *base, const char *path )
 	len += strlen( header ) + 2;	// adds in vis name + the two null bytes
 
 	fseek( target, startpos, SEEK_SET );
-	fwritenib( target, len, true );
+	fwriteu32( target, len, true );
 	fwritecrc32( target, len + 4, true );
 	free(tablerep);
 

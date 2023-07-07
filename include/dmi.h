@@ -65,8 +65,8 @@ bool displayAndConf( MagickWand *displayed );									// displays to user, promp
 
 // fileman.c - low level file calls
 bool searchASCII( FILE *haystack, const char *needle );	// searches thru a file for the ascii string, returns success
-uint32_t fnibtou( FILE *source, bool bend );		// gets a nibble (4 bytes) from source and converts to a 32b number
-bool fwritenib( FILE *source, uint32_t num, bool bend ); // writes a nibble to the source file, if bend is true it writes big endien, else little
+uint32_t freadu32( FILE *source, bool bend );		// gets 4 bytes from source, bend being if reading as a big endian or little, and converts to a 32b number
+bool fwriteu32( FILE *source, uint32_t num, bool bend ); // writes 4 bytes to the source file, bend being if writing a big or little endian
 
 // reads bytes from source, decompresses it to a malloced char array, returns it
 unsigned char *funcompz( FILE *source, unsigned bytes, unsigned long *arrsize ); 

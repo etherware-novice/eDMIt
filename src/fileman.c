@@ -18,7 +18,7 @@ bool searchASCII( FILE *haystack, const char *needle )
 	return false;
 }
 
-uint32_t fnibtou( FILE *source, bool bend )
+uint32_t freadu32( FILE *source, bool bend )
 {
 	uint32_t retr;
 
@@ -32,7 +32,7 @@ uint32_t fnibtou( FILE *source, bool bend )
 	return retr;
 }
 
-bool fwritenib( FILE *source, uint32_t num, bool bend )
+bool fwriteu32( FILE *source, uint32_t num, bool bend )
 {
 	if(bend)
 		num = htobe32(num);
@@ -88,7 +88,7 @@ void fwritecrc32( FILE *source, unsigned long bytes, bool bend )
 	unsigned char *buf = emalloc(sizeof(char) * bytes, "allocating a buffer to calculate crc from file");
 	fread( buf, sizeof(char), bytes, source );
 
-	fwritenib( source, crc32_byte(buf, bytes), bend );
+	fwriteu32( source, crc32_byte(buf, bytes), bend );
 	free( buf );
 }
 
