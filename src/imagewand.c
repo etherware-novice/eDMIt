@@ -60,6 +60,8 @@ MagickWand *appendImg( MagickWand *dst, MagickWand *src, unsigned x, unsigned y,
 {
 	MagickWand *rect = CloneMagickWand(src);
 	MagickCropImage( rect, width, height, x, y );
+
+	if( !dst ) return rect;
 	MagickAddImage( dst, rect );
 	MagickResetIterator( dst );
 
@@ -73,7 +75,7 @@ MagickWand *appendImg( MagickWand *dst, MagickWand *src, unsigned x, unsigned y,
 void appendImgInPlace( MagickWand **dst, MagickWand *src, unsigned x, unsigned y, unsigned width, unsigned height )
 {
 	MagickWand *tmp = appendImg( *dst, src, x, y, width, height );
-	DestroyMagickWand( *dst );
+	if( *dst == NULL ) DestroyMagickWand( *dst );
 	*dst = tmp;
 }
 
