@@ -11,6 +11,8 @@
 #define MAXSTATES 200
 #define MAXAUX 5
 
+#define MINCOLDEFAULT 10
+
 #define CHUNK "zTXt"
 #define FWORK ".swap"
 #define FTMP ".tmp" FWORK
@@ -42,7 +44,7 @@ unsigned getNextEmptyEnt(void);			// gets next empty entry, testing name
 void recalculateOffsets( unsigned start );	// recalculates the offsets var on the struct, starting at the start var
 
 // export.c - high level writing data
-void calculateOffsetPos( unsigned offset, unsigned *x, unsigned *y );	// calculates the topleft position of the offset into the statetable
+bool calculateOffsetPos( unsigned offset, unsigned *x, unsigned *y );	// calculates the topleft position of the offset into the statetable, returns false if the position is out of bounds
 void writeStateTable( const char *base, const char *path );		// copies the png base from base to path, inserting state table
 
 // buffer.c - wrappers for c functions
