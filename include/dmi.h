@@ -21,6 +21,7 @@ typedef struct {
 	unsigned *delay;
 	char *aux[MAXAUX];	// extra lines not parsed by above
 	unsigned offset;	// how many icons into the png does it start (0 indexed)
+	unsigned short size;	// how many icons this iconstate has
 } iconstate;
 
 

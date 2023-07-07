@@ -24,8 +24,6 @@ int main(int argc, char *argv[])
 
 	MagickCompositeImage( rfire, foo, OverCompositeOp, MagickFalse, 5, 50 );
 
-	displayAndConf( rfire );
-	return 0;
 
 	unsigned i, j;
 	iconstate *cur;
@@ -38,8 +36,8 @@ int main(int argc, char *argv[])
 		for( j = 0; j < cur->frames; j++ )
 			printf("%u ", cur->delay[j]);
 
-		printf("] %s\n", cur->name);
+		printf("] <%u - %hu> %s\n", cur->offset, cur->size, cur->name);
 	}
 
-
+	displayAndConf( rfire );
 }

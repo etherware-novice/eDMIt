@@ -48,6 +48,8 @@ void loadStateTable( const char *path )
 
 	free( rawText );
 	fclose( target );
+
+	recalculateOffsets(0);
 }
 
 void newStateEnt( const char *start )
@@ -164,11 +166,15 @@ unsigned getNextEmptyEnt(void)
 void recalculateOffsets( unsigned start )
 {
 	unsigned offset = statetable[start].offset;
+	unsigned short size;
 
 	while( start < MAXSTATES )
 	{
 		statetable[start].offset = offset;
-		offset += statetable[start].frames * statetable[start].dirs;
+		size = statetable[start].frames * statetable[start].dirs;
+
+		statetable[start].size = size;
+		offset += size;
 
 		start++;
 	}
