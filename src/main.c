@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
 
 	foo = eLoadImg(argv[1]);
 	rfire = appendImg( NULL, foo, x, y, width, height );
+	addSize( rfire, 32, 16 );
 
 	printf("%s (%u x %u)\n\n", fsource, pngwidth, pngheight);
 

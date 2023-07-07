@@ -22,6 +22,12 @@ MagickWand *eLoadImg( const char *path )
 	conGen();
 	MagickWand *mw = NewMagickWand();
 	MagickReadImage( mw, path );
+
+	PixelWand *pw = NewPixelWand();
+	PixelSetColor( pw, "none" );
+	MagickSetImageBackgroundColor( mw, pw );
+
+	DestroyPixelWand(pw);
 	return mw;
 }
 
@@ -33,7 +39,9 @@ void resizeWand( MagickWand *mw, unsigned xNew, unsigned yNew )
 void addSize( MagickWand *mw, int xMov, int yMov )
 {
 	size_t x, y;
-	MagickGetSize( mw, &x, &y );
+	//MagickGetSize( mw, &x, &y );
+	x = MagickGetImageWidth( mw );
+	y = MagickGetImageHeight( mw );
 
 	if( xMov < 0 && xMov * -1 > x ) x = 1;
 	else x += xMov;
@@ -70,9 +78,6 @@ MagickWand *appendImg( MagickWand *dst, MagickWand *src, unsigned x, unsigned y,
 	MagickAddImage( dst, rect );
 	MagickResetIterator( dst );
 
-	PixelWand *pw = NewPixelWand();
-	PixelSetColor( pw, "none" );
-	MagickSetImageBackgroundColor( dst, pw );
 
 	return MagickAppendImages( dst, MagickFalse );
 }
