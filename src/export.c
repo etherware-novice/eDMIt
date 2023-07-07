@@ -19,7 +19,7 @@ bool calculateOffsetPos( unsigned offset, unsigned *x, unsigned *y )
 	nY = (offset / perLine) * height;
 
 	if( x ) *x = nX;
-	if( y ) *y = ny;
+	if( y ) *y = nY;
 
 	// getting bottom right of the icon
 	nX += width;
