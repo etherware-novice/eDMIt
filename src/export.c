@@ -7,9 +7,9 @@ void calculateOffsetPos( unsigned offset, unsigned *x, unsigned *y )
 	unsigned perLine = pngwidth / width;
 
 	if( x )
-		*x = offset / perLine;
+		*x = (offset % perLine) * width;
 	if( y )
-		*y = offset % perLine;
+		*y = (offset / perLine) * height;
 }
 
 static char *tableToString(void)

@@ -19,11 +19,18 @@ int main(int argc, char *argv[])
 	MagickWand *foo = eLoadImg( "checker.png" );
 	MagickWand *rfire = eLoadImg( "rfirebad.png" );
 
+	/*
 	appendImgInPlace( &rfire, rfire, 0, 0, 64, 64 );
 	appendImgInPlace( &rfire, foo, 8, 8, 128, 128 );
 
 	MagickCompositeImage( rfire, foo, OverCompositeOp, MagickFalse, 5, 50 );
+	*/
 
+	unsigned x, y;
+	calculateOffsetPos( 37, &x, &y );
+
+	foo = eLoadImg(argv[1]);
+	rfire = appendImg( NULL, foo, x, y, width, height );
 
 	printf("%s (%u x %u)\n\n", fsource, pngwidth, pngheight);
 
