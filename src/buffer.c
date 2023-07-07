@@ -37,6 +37,15 @@ FILE *efopen( const char *path, const char *mode, const char *desc )
 	return block;
 }
 
+FILE *fopenTemp( const char *suffix, const char *mode )
+{
+	char *buf = sncatf( NULL, "%s%s", fsource, suffix );
+	FILE *fstr = efopen( buf, suffix, "opening tmp file swap" );
+
+	free( buf );
+	return fstr;
+}
+
 void fswapos( FILE *stream, long *pos )
 {
 	long buf = ftell(stream);

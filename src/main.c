@@ -25,6 +25,8 @@ int main(int argc, char *argv[])
 	MagickCompositeImage( rfire, foo, OverCompositeOp, MagickFalse, 5, 50 );
 
 
+	printf("%s\n\n", fsource);
+
 	unsigned i, j;
 	iconstate *cur;
 	for( i = 0; i < MAXSTATES; i++ )

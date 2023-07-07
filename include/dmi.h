@@ -12,7 +12,8 @@
 #define MAXAUX 5
 
 #define CHUNK "zTXt"
-#define FHEAD ".tmp.swap"
+#define FWORK ".swap"
+#define FTMP ".tmp" FWORK
 
 typedef struct {
 	char name[MAXNAME];
@@ -27,6 +28,7 @@ typedef struct {
 
 extern iconstate statetable[MAXSTATES];
 extern char header[MAXNAME];
+extern char *fsource;
 extern unsigned width;
 extern unsigned height;
 
@@ -44,8 +46,9 @@ void *emalloc( size_t size, const char *desc );	// on error, display the strerro
 void *erealloc( void *ptr, size_t size, const char *desc );
 FILE *efopen( const char *path, const char *mode, const char *desc );
 
-void fswapos( FILE *stream, long *pos );		// seeks to pos, saves old stream position to pos
-char *sncatf( char *str, const char *format, ... );	// takes a MALLOCED char array of size `size`, appends formatted string, updates size pointer to new size of block nd returns
+FILE *fopenTemp( const char *suffix, const char *mode );	// opens file fsource + suffix
+void fswapos( FILE *stream, long *pos );			// seeks to pos, saves old stream position to pos
+char *sncatf( char *str, const char *format, ... );		// takes a MALLOCED char array of size `size`, appends formatted string, updates size pointer to new size of block nd returns
 
 // imagewand.c - image manipulation with imagemagick
 MagickWand *eLoadImg( const char *path );									// loads image at path into wand, returns

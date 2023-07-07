@@ -5,11 +5,17 @@
 
 iconstate statetable[MAXSTATES];
 char header[MAXNAME];
+char *fsource = NULL;
 unsigned width;
 unsigned height;
 
+// TODO make fsource work with directories
+// or in general
+// this is going to be a disaster
 void loadStateTable( const char *path )
 {
+	if( fsource ) free(fsource);
+	fsource = sncatf( NULL, "%s", path );
 	width = 0;
 	height = 0;
 
