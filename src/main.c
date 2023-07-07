@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 	MagickCompositeImage( rfire, foo, OverCompositeOp, MagickFalse, 5, 50 );
 
 
-	printf("%s\n\n", fsource);
+	printf("%s (%u x %u)\n\n", fsource, pngwidth, pngheight);
 
 	unsigned i, j;
 	iconstate *cur;

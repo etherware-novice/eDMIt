@@ -29,8 +29,11 @@ typedef struct {
 extern iconstate statetable[MAXSTATES];
 extern char header[MAXNAME];
 extern char *fsource;
-extern unsigned width;
-extern unsigned height;
+extern uint32_t pngwidth;	// width of full png
+extern uint32_t pngheight;	// height of full png
+
+extern unsigned width;		// width of one icon
+extern unsigned height;		// height of one icon
 
 // parser.c - high level reading data
 void loadStateTable( const char *path );	// loads state table from png path
@@ -39,7 +42,8 @@ unsigned getNextEmptyEnt(void);			// gets next empty entry, testing name
 void recalculateOffsets( unsigned start );	// recalculates the offsets var on the struct, starting at the start var
 
 // export.c - high level writing data
-void writeStateTable( const char *base, const char *path );	// copies the png base from base to path, inserting state table
+void calculateOffsetPos( unsigned offset, unsigned *x, unsigned *y );	// calculates the topleft position of the offset into the statetable
+void writeStateTable( const char *base, const char *path );		// copies the png base from base to path, inserting state table
 
 // buffer.c - wrappers for c functions
 void *emalloc( size_t size, const char *desc );	// on error, display the strerror of the call with the added description (can be null)

@@ -6,6 +6,9 @@
 iconstate statetable[MAXSTATES];
 char header[MAXNAME];
 char *fsource = NULL;
+uint32_t pngwidth;
+uint32_t pngheight;
+
 unsigned width;
 unsigned height;
 
@@ -24,6 +27,11 @@ void loadStateTable( const char *path )
 	FILE *target = efopen( path, "rb", "opening dmi for parsing" );
 
 	if( target == NULL ) { errno = ENOENT; return; };
+
+	fseek( target, 0x10, SEEK_SET );	// skips to width bytes
+	pngwidth = fnibtou( target, true );
+	pngheight = fnibtou( target, true );
+
 	if( !searchASCII(target, CHUNK) ) { errno = EOPNOTSUPP; return; };
 
 	fseek(target, -8, SEEK_CUR);

@@ -2,6 +2,16 @@
 #include <string.h>
 
 
+void calculateOffsetPos( unsigned offset, unsigned *x, unsigned *y )
+{
+	unsigned perLine = pngwidth / width;
+
+	if( x )
+		*x = offset / perLine;
+	if( y )
+		*y = offset % perLine;
+}
+
 static char *tableToString(void)
 {
 	unsigned i, j;
