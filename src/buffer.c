@@ -37,6 +37,19 @@ FILE *efopen( const char *path, const char *mode, const char *desc )
 	return block;
 }
 
+void fcopyTemp( const char *dstsuffix, const char *srcsuffix )
+{
+	if( !dstsuffix || !srcsuffix ) return NULL;
+
+	char *dst = sncatf( NULL, "%s%s", fsource, dstsuffix );
+	char *src = sncatf( NULL, "%s%s", fsource, srcsuffix );
+
+	copyFile( dst, src );
+	
+	free( dst );
+	free( src );
+}
+
 FILE *fopenTemp( const char *suffix, const char *mode )
 {
 	char *buf = sncatf( NULL, "%s%s", fsource, suffix );
@@ -44,6 +57,15 @@ FILE *fopenTemp( const char *suffix, const char *mode )
 
 	free( buf );
 	return fstr;
+}
+
+MagickWand *imgopenTemp( const char *suffix )
+{
+	char *buf = sncatf( NULL, "%s%s", fsource, suffix );
+	MagickWand *mw = eLoadImg( buf );
+
+	free(buf);
+	return mw;
 }
 
 void fswapos( FILE *stream, long *pos )

@@ -52,7 +52,10 @@ void *emalloc( size_t size, const char *desc );	// on error, display the strerro
 void *erealloc( void *ptr, size_t size, const char *desc );
 FILE *efopen( const char *path, const char *mode, const char *desc );
 
+void fcopyTemp( const char *dstsuffix, const char *srcsuffix );// copies fsource + srcsuffix to fsource + dstsuffix (or plain fsource if null)
 FILE *fopenTemp( const char *suffix, const char *mode );	// opens file fsource + suffix
+MagickWand *imgopenTemp( const char *suffix );			// opens file fsource + suffix as a magickwand
+
 void fswapos( FILE *stream, long *pos );			// seeks to pos, saves old stream position to pos
 char *sncatf( char *str, const char *format, ... );		// takes a MALLOCED char array of size `size`, appends formatted string, updates size pointer to new size of block nd returns
 
@@ -78,6 +81,9 @@ unsigned long fwritecomp( FILE *source, const unsigned char *from, unsigned long
 
 // reads x bytes from source, calculates the crc32, writes it with big-endian if bend is true
 void fwritecrc32( FILE *source, unsigned long bytes, bool bend );
+
+// copies file from src to dst
+void copyFile( const char *dst, const char *src );
 
 uint32_t crc32_byte(unsigned char *p, unsigned bytelength);
 

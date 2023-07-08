@@ -92,6 +92,17 @@ void fwritecrc32( FILE *source, unsigned long bytes, bool bend )
 	free( buf );
 }
 
+void copyFile( const char *dst, const char *src )
+{
+	FILE *fdst = efopen( dst, "w", "copying file: destination" );
+	if( errno ) return;
+
+	FILE *fsrc = efopen( src, "r", "copying file: source" );
+	if( errno ) return;
+
+	int c;
+	while( (c = getc(fsrc)) != EOF ) putc(c, dst);
+}
 
 
 // CRC HELLSECTION http://www.libpng.org/pub/png/spec/1.2/PNG-CRCAppendix.html
