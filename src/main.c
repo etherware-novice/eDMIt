@@ -16,22 +16,6 @@ int main(int argc, char *argv[])
 	loadStateTable(argv[1]);
 	writeStateTable( "checker.png", "/tmp/checker.dmi" );
 
-	MagickWand *foo = eLoadImg( "checker.png" );
-	MagickWand *rfire = eLoadImg( "rfirebad.png" );
-
-	/*
-	appendImgInPlace( &rfire, rfire, 0, 0, 64, 64 );
-	appendImgInPlace( &rfire, foo, 8, 8, 128, 128 );
-
-	MagickCompositeImage( rfire, foo, OverCompositeOp, MagickFalse, 5, 50 );
-	*/
-
-	unsigned x, y;
-	calculateOffsetPos( 37, &x, &y );
-
-	foo = eLoadImg(argv[1]);
-	rfire = appendImg( NULL, foo, x, y, width, height );
-	addSize( rfire, 32, 16 );
 
 	printf("%s (%u x %u)\n\n", fsource, pngwidth, pngheight);
 
@@ -49,5 +33,6 @@ int main(int argc, char *argv[])
 		printf("] <%u - %hu> %s\n", cur->offset, cur->size, cur->name);
 	}
 
-	displayAndConf( rfire );
+
+	displayAndConf( makeGif(constructStateWand(statetable[22], 0), NULL) );
 }

@@ -98,43 +98,42 @@ void multSize( MagickWand *mw, double xMov, double yMov )
 
 MagickWand *appendImg( MagickWand *dst, MagickWand *src, unsigned x, unsigned y, unsigned width, unsigned height )
 {
-	MagickWand *rect = CloneMagickWand(src);
+	MagickWand *rect = MagickGetImage(src);
 	MagickCropImage( rect, width, height, x, y );
 
 	if( !dst ) return rect;
 	MagickAddImage( dst, rect );
-	MagickResetIterator( dst );
+	MagickSetImageDispose( dst, BackgroundDispose );
+	MagickSetImagePage( dst, width, height, 0, 0 );
 
-
+	DestroyMagickWand( rect );
 	return dst;
 }
 
 void appendImgInPlace( MagickWand **dst, MagickWand *src, unsigned x, unsigned y, unsigned width, unsigned height )
 {
 	MagickWand *tmp = appendImg( *dst, src, x, y, width, height );
-	if( *dst == NULL ) DestroyMagickWand( *dst );
+	//if( *dst != NULL ) DestroyMagickWand( *dst );
 	*dst = tmp;
 }
 
 // TODO read timing info
 MagickWand *makeGif( MagickWand *frames, unsigned *timing )
 {
-	MagickWand *gif = MagickCoalesceImages(frames);
+	MagickWand *gif = frames;//MagickCoalesceImages(frames);
 	unsigned i;
 
 	size_t optCount, ti;
-	char **opts = MagickGetOptions( gif, NULL, &optCount );
+	char **opts = MagickGetOptions( frames, NULL, &optCount );
 	for( ti = 0; ti < optCount; ti++ )
 		puts(opts[ti]);
 
 	for( i = 1; i < MagickGetNumberImages(gif); i++ )
 		continue;
 
-	MagickWand *decon = MagickCompareImagesLayers( gif, CompareAnyLayer );
-	MagickSetOption( decon, "loop", 0 );
+	MagickSetOption( gif, "loop", "0" );
 
-	DestroyMagickWand(gif);
-	return decon;
+	return gif;
 }
 
 // TODO make it save to .tmp.swap.FNAME
@@ -142,11 +141,13 @@ MagickWand *makeGif( MagickWand *frames, unsigned *timing )
 bool displayAndConf( MagickWand *displayed )
 {
 	char tmpFile[] = "/tmp/export.gif";
-	MagickWriteImages( displayed, tmpFile, true );
+
+	MagickResetIterator( displayed );
+	MagickWriteImages( displayed, tmpFile, MagickTrue );
 
 	char *syscall = sncatf( NULL, "%s %s", IMGVIEW, tmpFile );
 	system( syscall );
-	free( syscall );
 
+	free( syscall );
 	return false;
 }

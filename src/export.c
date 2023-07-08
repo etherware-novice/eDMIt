@@ -42,7 +42,7 @@ MagickWand *constructStateWand( iconstate data, int dir )
 	for( i = 0; i < data.frames; i++ )
 	{
 		calculateOffsetPos( start + i, &x, &y );
-		appendImgInPlace( &constructed, src, x, y, width, height );
+		constructed = appendImg( constructed, src, x, y, width, height );
 	}
 
 	return constructed;
