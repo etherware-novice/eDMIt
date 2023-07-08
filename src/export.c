@@ -72,7 +72,8 @@ void writeStateTable( const char *base, const char *path )
 
 	// copies header
 	long startpos;
-	for( startpos = 0; startpos < 0x21; startpos++ ) fputc( fgetc(source), target );
+	int c;
+	for( startpos = 0; startpos < 0x21; startpos++ ) if( (c = getc(source)) != EOF ) putc(c, target)l
 
 	fprintf( target, "0000zTXt%s", header );
 	fputc( '\0', target );
@@ -88,7 +89,7 @@ void writeStateTable( const char *base, const char *path )
 	free(tablerep);
 
 	// copy the rest of the file
-	while(!feof(source)) fputc( fgetc(source), target );
+        while( (c = getc(source)) != EOF ) putc(c, target);
 	printf("wrote %ld bytes\n", ftell(target));
 	fclose(target);
 	fclose(source);
