@@ -3,6 +3,29 @@
 
 
 
+void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src )
+{
+	MagickWand *rect = CloneMagickWand(mw);
+	unsigned x, y;
+
+	calculateOffsetPos( src, &x, &y );
+	MagickCropImage( rect, width, height, x, y );
+
+	if( !calculateOffsetPos( dst, &x, &y ) )
+	{
+		if( x == 0 )
+		{
+			addSize( src, width, 0 );
+			pngwidth += width;
+		}
+		else
+		{
+			addSize( src, 0, height );
+			pngheight += height;
+		}
+	}
+	MagickCompositeImage( dst, rect, OverCompositeOp, MagickFalse, x, y );
+}
 
 static char *tableToString(void)
 {
@@ -37,7 +60,6 @@ static char *tableToString(void)
 
 	return sncatf( export, "\n# END DMI\n" );
 }
-
 
 // TODO actually read from base
 void writeStateTable( const char *base, const char *path )

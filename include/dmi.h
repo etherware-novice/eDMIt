@@ -44,6 +44,7 @@ unsigned getNextEmptyEnt(void);			// gets next empty entry, testing name
 void recalculateOffsets( unsigned start );	// recalculates the offsets var on the struct, starting at the start var
 
 // export.c - high level writing data
+void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src );	// copies offset src on top of offset dst
 void writeStateTable( const char *base, const char *path );		// copies the png base from base to path, inserting state table
 
 // buffer.c - wrappers for c functions
