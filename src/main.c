@@ -1,6 +1,19 @@
 #include "dmi.h"
 
 
+void clean(void)
+{
+	unsigned i, j;
+	for( i = 0; i < MAXSTATES; i++ )
+	{
+		free( statetable[i].delay );
+
+		for( j = 0; j < MAXAUX; j++ )
+			free( statetable[i].aux[j] );
+	}
+	MagickWandTerminus();
+}
+
 int main(int argc, char *argv[])
 {
 	if( argc < 2 )
@@ -30,5 +43,9 @@ int main(int argc, char *argv[])
 	}
 
 
-	displayAndConf( makeGif(constructStateWand(statetable[20], -1), NULL) );
+	MagickWand *export = makeGif(constructStateWand(statetable[20], -1), NULL);
+	displayAndConf( export );
+	DestroyMagickWand( export );
+
+	clean();
 }

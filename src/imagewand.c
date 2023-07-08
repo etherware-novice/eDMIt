@@ -123,6 +123,7 @@ MagickWand *makeGif( MagickWand *frames, unsigned *timing )
 	MagickWand *gif = frames;//MagickCoalesceImages(frames);
 	unsigned i;
 
+	/*
 	size_t optCount, ti;
 	char **opts = MagickGetOptions( frames, NULL, &optCount );
 	for( ti = 0; ti < optCount; ti++ )
@@ -130,6 +131,7 @@ MagickWand *makeGif( MagickWand *frames, unsigned *timing )
 
 	for( i = 1; i < MagickGetNumberImages(gif); i++ )
 		continue;
+	*/
 
 	MagickSetOption( gif, "loop", "0" );
 

@@ -61,6 +61,7 @@ MagickWand *constructStateWand( iconstate data, int dir )
 		frameVis = NULL;
 	}
 
+	DestroyMagickWand(src);
 	return constructed;
 }
 
