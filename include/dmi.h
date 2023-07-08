@@ -44,7 +44,6 @@ unsigned getNextEmptyEnt(void);			// gets next empty entry, testing name
 void recalculateOffsets( unsigned start );	// recalculates the offsets var on the struct, starting at the start var
 
 // export.c - high level writing data
-bool calculateOffsetPos( unsigned offset, unsigned *x, unsigned *y );	// calculates the topleft position of the offset into the statetable, returns false if the position is out of bounds
 void writeStateTable( const char *base, const char *path );		// copies the png base from base to path, inserting state table
 
 // buffer.c - wrappers for c functions
@@ -60,6 +59,7 @@ void fswapos( FILE *stream, long *pos );			// seeks to pos, saves old stream pos
 char *sncatf( char *str, const char *format, ... );		// takes a MALLOCED char array of size `size`, appends formatted string, updates size pointer to new size of block nd returns
 
 // imagewand.c - image manipulation with imagemagick
+bool calculateOffsetPos( unsigned offset, unsigned *x, unsigned *y );	// calculates the topleft position of the offset into the statetable, returns false if the position is out of bounds
 MagickWand *eLoadImg( const char *path );									// loads image at path into wand, returns
 void resizeWand( MagickWand *mw, unsigned xNew, unsigned yNew );						// resizes mw to xnew, ynew
 void addSize( MagickWand *mw, int xMov, int yMov );								// adds xmov and ymov to size of wand

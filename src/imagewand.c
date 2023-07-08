@@ -10,6 +10,33 @@
 
 #endif
 
+
+bool calculateOffsetPos( unsigned offset, unsigned *x, unsigned *y )
+{
+	unsigned perLine = pngwidth / width;
+	unsigned nX, nY;
+
+	// if its less than the min number in a line, and theres less than 2 rows already
+	if( perLine < MINCOLDEFAULT && pngheight < height * 2 )
+	{
+		if( x ) *x = offset * width;
+		if( y ) *y = 0;
+		return false;
+	}
+
+	nX = (offset % perLine) * width;
+	nY = (offset / perLine) * height;
+
+	if( x ) *x = nX;
+	if( y ) *y = nY;
+
+	// getting bottom right of the icon
+	nX += width;
+	nY += height;
+
+	return ( nX <= pngwidth && nY <= pngheight );
+}
+
 static void conGen(void)
 {
 	if( IsMagickWandInstantiated() == MagickTrue) return;
