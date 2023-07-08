@@ -39,7 +39,7 @@ FILE *efopen( const char *path, const char *mode, const char *desc )
 
 void fcopyTemp( const char *dstsuffix, const char *srcsuffix )
 {
-	if( !dstsuffix || !srcsuffix ) return NULL;
+	if( !dstsuffix || !srcsuffix ) return;
 
 	char *dst = sncatf( NULL, "%s%s", fsource, dstsuffix );
 	char *src = sncatf( NULL, "%s%s", fsource, srcsuffix );
@@ -53,7 +53,7 @@ void fcopyTemp( const char *dstsuffix, const char *srcsuffix )
 FILE *fopenTemp( const char *suffix, const char *mode )
 {
 	char *buf = sncatf( NULL, "%s%s", fsource, suffix );
-	FILE *fstr = efopen( buf, suffix, "opening tmp file swap" );
+	FILE *fstr = efopen( buf, mode, "opening tmp file swap" );
 
 	free( buf );
 	return fstr;

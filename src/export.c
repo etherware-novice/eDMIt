@@ -73,7 +73,7 @@ void writeStateTable( const char *base, const char *path )
 	// copies header
 	long startpos;
 	int c;
-	for( startpos = 0; startpos < 0x21; startpos++ ) if( (c = getc(source)) != EOF ) putc(c, target)l
+	for( startpos = 0; startpos < 0x21; startpos++ ) if( (c = getc(source)) != EOF ) putc(c, target);
 
 	fprintf( target, "0000zTXt%s", header );
 	fputc( '\0', target );

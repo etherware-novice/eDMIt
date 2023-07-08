@@ -101,7 +101,7 @@ void copyFile( const char *dst, const char *src )
 	if( errno ) return;
 
 	int c;
-	while( (c = getc(fsrc)) != EOF ) putc(c, dst);
+	while( (c = getc(fsrc)) != EOF ) putc(c, fdst);
 }
 
 
