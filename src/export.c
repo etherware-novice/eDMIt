@@ -106,10 +106,15 @@ void writeStateTable( const char *base, const char *path )
 	FILE *target = efopen( path, "wb+", "opening export file" );
 	if( !target || !source ) return;
 
+	size_t read, write = 1;
+	char buf[8192];
+
 	// copies header
-	long startpos;
-	int c;
-	for( startpos = 0; startpos < 0x21; startpos++ ) if( (c = getc(source)) != EOF ) putc(c, target);
+	long startpos = 0x21;
+
+	read = fread( buf, 1, startpos - 1, source );
+	if( read ) write = fwrite( buf, 1, startpos - 1, source );
+	if( read != write ) { perror("copying state table"); return; }
 
 	fprintf( target, "0000zTXt%s", header );
 	fputc( '\0', target );
@@ -125,7 +130,13 @@ void writeStateTable( const char *base, const char *path )
 	free(tablerep);
 
 	// copy the rest of the file
-        while( (c = getc(source)) != EOF ) putc(c, target);
+ 	do
+	{
+		read = fread(buf, 1, sizeof(buf), fsrc);
+		if( read ) write = fwrite(buf, 1, sizeof(buf), fdst);
+		else read = 0;
+	} while( read > 0 && read == write );
+
 	printf("wrote %ld bytes\n", ftell(target));
 	fclose(target);
 	fclose(source);
