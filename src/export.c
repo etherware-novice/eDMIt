@@ -35,14 +35,31 @@ MagickWand *constructStateWand( iconstate data, int dir )
 	MagickWand *src = imgopenTemp( FTMP );
 
 	MagickWand *constructed = NewMagickWand();
-	unsigned start = data.offset + ( dir * data.frames );
+	MagickWand *frameVis = NULL;
+
+	unsigned start = data.offset;
+	unsigned frames = 1;
+	if( dir >= 0 ) start += dir * data.frames;
+	else frames = data.dirs;
+
 	unsigned x, y;
-	unsigned short i;
+	unsigned short i, j;
 
 	for( i = 0; i < data.frames; i++ )
 	{
-		calculateOffsetPos( start + i, &x, &y );
-		constructed = appendImg( constructed, src, x, y, width, height );
+		for( j = 0; j < frames; j++ )
+		{
+			calculateOffsetPos( start + j + (i*data.dirs), &x, &y );
+			frameVis = appendImg( frameVis, src, x, y, width, height );
+		}
+		MagickResetIterator( frameVis );
+		MagickAddImage( constructed, MagickAppendImages( frameVis, MagickFalse ));
+
+		MagickSetImageDispose( constructed, BackgroundDispose );
+		MagickSetImagePage( constructed, width, height, 0, 0 );
+
+		DestroyMagickWand( frameVis );
+		frameVis = NULL;
 	}
 
 	return constructed;

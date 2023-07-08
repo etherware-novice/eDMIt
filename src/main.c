@@ -34,5 +34,5 @@ int main(int argc, char *argv[])
 	}
 
 
-	displayAndConf( makeGif(constructStateWand(statetable[22], 0), NULL) );
+	displayAndConf( makeGif(constructStateWand(statetable[0], -1), NULL) );
 }
