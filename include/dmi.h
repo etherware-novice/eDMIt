@@ -22,6 +22,8 @@
 #define FWORK ".swap"
 #define FTMP ".tmp" FWORK
 
+#define GETFSUF( suf ) ( sncatf( NULL, "%s%s", fsource, suf ) )
+
 typedef struct {
 	char name[MAXNAME];
 	unsigned frames;
@@ -58,7 +60,7 @@ void *emalloc( size_t size, const char *desc );	// on error, display the strerro
 void *erealloc( void *ptr, size_t size, const char *desc );
 FILE *efopen( const char *path, const char *mode, const char *desc );
 
-void fcopyTemp( const char *dstsuffix, const char *srcsuffix );// copies fsource + srcsuffix to fsource + dstsuffix (or plain fsource if null)
+void fcopyTemp( const char *dstsuffix, const char *srcsuffix );	// copies fsource + srcsuffix to fsource + dstsuffix (or plain fsource if null)
 FILE *fopenTemp( const char *suffix, const char *mode );	// opens file fsource + suffix
 MagickWand *imgopenTemp( const char *suffix );			// opens file fsource + suffix as a magickwand
 

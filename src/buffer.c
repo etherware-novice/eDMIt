@@ -38,8 +38,8 @@ void fcopyTemp( const char *dstsuffix, const char *srcsuffix )
 {
 	if( !dstsuffix || !srcsuffix ) return;
 
-	char *dst = sncatf( NULL, "%s%s", fsource, dstsuffix );
-	char *src = sncatf( NULL, "%s%s", fsource, srcsuffix );
+	char *dst = GETFSUF( dstsuffix );
+	char *src = GETFSUF( srcsuffix );
 
 	copyFile( dst, src );
 	
@@ -49,7 +49,7 @@ void fcopyTemp( const char *dstsuffix, const char *srcsuffix )
 
 FILE *fopenTemp( const char *suffix, const char *mode )
 {
-	char *buf = sncatf( NULL, "%s%s", fsource, suffix );
+	char *buf = GETFSUF( suffix );
 	FILE *fstr = efopen( buf, mode, "opening tmp file swap" );
 
 	free( buf );
@@ -58,7 +58,7 @@ FILE *fopenTemp( const char *suffix, const char *mode )
 
 MagickWand *imgopenTemp( const char *suffix )
 {
-	char *buf = sncatf( NULL, "%s%s", fsource, suffix );
+	char *buf = GETFSUF( suffix );
 	MagickWand *mw = eLoadImg( buf );
 
 	free(buf);
