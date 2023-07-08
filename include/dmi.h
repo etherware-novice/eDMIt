@@ -45,6 +45,7 @@ void recalculateOffsets( unsigned start );	// recalculates the offsets var on th
 
 // export.c - high level writing data
 void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src );	// copies offset src on top of offset dst
+MagickWand *constructStateWand( iconstate data, int dir );		// constructs statewand for state, for direction dir (or all if -1) (not implemented)
 void writeStateTable( const char *base, const char *path );		// copies the png base from base to path, inserting state table
 
 // buffer.c - wrappers for c functions

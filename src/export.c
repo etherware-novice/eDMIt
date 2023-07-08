@@ -27,6 +27,27 @@ void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src )
 	MagickCompositeImage( mw, rect, OverCompositeOp, MagickFalse, x, y );
 }
 
+// TODO use FWORK tmp instead of original
+// TODO implement all-directions
+MagickWand *constructStateWand( iconstate data, int dir )
+{
+	fcopyTemp( FTMP, "" );
+	MagickWand *src = imgopenTemp( FTMP );
+
+	MagickWand *constructed = NewMagickWand();
+	unsigned start = data.offset + ( dir * data.frames );
+	unsigned x, y;
+	unsigned short i;
+
+	for( i = 0; i < data.frames; i++ )
+	{
+		calculateOffsetPos( start + i, &x, &y );
+		appendImgInPlace( &constructed, src, x, y, width, height );
+	}
+
+	return constructed;
+}
+
 static char *tableToString(void)
 {
 	unsigned i, j;
