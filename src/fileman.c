@@ -94,14 +94,22 @@ void fwritecrc32( FILE *source, unsigned long bytes, bool bend )
 
 void copyFile( const char *dst, const char *src )
 {
-	FILE *fdst = efopen( dst, "w", "copying file: destination" );
+	FILE *fdst = efopen( dst, "wb", "copying file: destination" );
 	if( errno ) return;
 
-	FILE *fsrc = efopen( src, "r", "copying file: source" );
+	FILE *fsrc = efopen( src, "rb", "copying file: source" );
 	if( errno ) return;
 
-	int c;
-	while( (c = getc(fsrc)) != EOF ) putc(c, fdst);
+	size_t read, write;
+	unsigned char buf[8192];
+	do
+	{
+		read = fread(buf, 1, sizeof(buf), fsrc);
+		if( read ) write = fwrite(buf, 1, sizeof(buf), fdst);
+		else read = 0;
+	} while( read > 0 && read == write );
+
+	if( write ) perror( "error while copying file" );
 }
 
 
