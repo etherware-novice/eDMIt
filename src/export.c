@@ -132,8 +132,8 @@ void writeStateTable( const char *base, const char *path )
 	// copy the rest of the file
  	do
 	{
-		read = fread(buf, 1, sizeof(buf), fsrc);
-		if( read ) write = fwrite(buf, 1, sizeof(buf), fdst);
+		read = fread(buf, 1, sizeof(buf), source);
+		if( read ) write = fwrite(buf, 1, sizeof(buf), target);
 		else read = 0;
 	} while( read > 0 && read == write );
 
