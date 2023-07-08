@@ -1,5 +1,4 @@
 #include "dmi.h"
-#include <string.h>
 #include <ctype.h>
 
 

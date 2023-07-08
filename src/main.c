@@ -1,8 +1,4 @@
 #include "dmi.h"
-#include <zlib.h>
-#include <endian.h>
-
-#include <string.h> // tmp
 
 
 int main(int argc, char *argv[])
@@ -34,5 +30,5 @@ int main(int argc, char *argv[])
 	}
 
 
-	displayAndConf( makeGif(constructStateWand(statetable[0], -1), NULL) );
+	displayAndConf( makeGif(constructStateWand(statetable[20], -1), NULL) );
 }

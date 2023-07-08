@@ -1,6 +1,4 @@
 #include "dmi.h"
-#include <endian.h>
-#include <zlib.h>
 
 bool searchASCII( FILE *haystack, const char *needle )
 {

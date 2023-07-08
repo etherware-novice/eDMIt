@@ -1,7 +1,4 @@
 #include "dmi.h"
-#include <error.h>
-#include <string.h>
-#include <stdarg.h>
 
 void *emalloc( size_t size, const char *desc )
 {

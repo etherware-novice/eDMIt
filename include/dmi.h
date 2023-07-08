@@ -1,11 +1,16 @@
 #ifndef DMI_H
 
-#include <stdio.h>  // for the FILE specifier
-#include <stdlib.h>
-#include <stdint.h>
+#include <stdio.h>  // FILE specifier
+#include <stdint.h> // uint32_t 
 #include <stdbool.h>
+#include <ImageMagick-7/MagickWand/MagickWand.h> // magickwand return
+#include <zlib.h>
+
+// not needed for the header, but used often in multiple files
+#include <stdlib.h>
+#include <string.h>
 #include <errno.h>
-#include <ImageMagick-7/MagickWand/MagickWand.h>
+
 
 #define MAXNAME 64
 #define MAXSTATES 200
