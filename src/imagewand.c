@@ -43,10 +43,10 @@ void addSize( MagickWand *mw, int xMov, int yMov )
 	x = MagickGetImageWidth( mw );
 	y = MagickGetImageHeight( mw );
 
-	if( xMov < 0 && xMov * -1 > x ) x = 1;
+	if( xMov < 0 && xMov * -1 > (long long) x ) x = 1;
 	else x += xMov;
 
-	if( yMov < 0 && yMov * -1 > y ) y = 1;
+	if( yMov < 0 && yMov * -1 > (long long) y ) y = 1;
 	else y += yMov;
 
 	resizeWand( mw, x, y );
