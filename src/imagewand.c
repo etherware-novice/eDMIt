@@ -106,7 +106,7 @@ MagickWand *appendImg( MagickWand *dst, MagickWand *src, unsigned x, unsigned y,
 	MagickResetIterator( dst );
 
 
-	return MagickAppendImages( dst, MagickFalse );
+	return dst;
 }
 
 void appendImgInPlace( MagickWand **dst, MagickWand *src, unsigned x, unsigned y, unsigned width, unsigned height )

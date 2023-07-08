@@ -15,16 +15,16 @@ void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src )
 	{
 		if( x == 0 )
 		{
-			addSize( src, width, 0 );
+			addSize( mw, width, 0 );
 			pngwidth += width;
 		}
 		else
 		{
-			addSize( src, 0, height );
+			addSize( mw, 0, height );
 			pngheight += height;
 		}
 	}
-	MagickCompositeImage( dst, rect, OverCompositeOp, MagickFalse, x, y );
+	MagickCompositeImage( mw, rect, OverCompositeOp, MagickFalse, x, y );
 }
 
 static char *tableToString(void)
