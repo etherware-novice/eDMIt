@@ -30,8 +30,7 @@ void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src )
 // TODO implement all-directions
 MagickWand *constructStateWand( iconstate data, int dir )
 {
-	fcopyTemp( FTMP, "" );
-	MagickWand *src = imgopenTemp( FTMP );
+	MagickWand *src = imgopenTemp( FWORK );
 
 	MagickWand *constructed = NewMagickWand();
 	MagickWand *frameVis = NULL;

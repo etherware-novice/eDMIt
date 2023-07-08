@@ -22,6 +22,9 @@ int main(int argc, char *argv[])
 		return ENOENT;
 	}
 
+	fcopyTemp( FWORK, "" );
+	fcopyTemp( "~", "" );
+
 	loadStateTable(argv[1]);
 	writeStateTable( "checker.png", "/tmp/checker.dmi" );
 
