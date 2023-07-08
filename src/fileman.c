@@ -59,6 +59,7 @@ unsigned char *funcompz( FILE *source, unsigned bytes, unsigned long *arrsize )
 
 	free(compressed);
 	text = erealloc( text, sizeof(unsigned char) * ++dump, "reallocating uncompressed text to fit" );
+	text[dump - 1] = '\0';
 
 	if( arrsize )
 		*arrsize = dump;
