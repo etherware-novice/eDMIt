@@ -63,7 +63,7 @@ void makeOffsetSpace( unsigned offset, int spaces )
 			}
 		if( !(i=j) ) return;
 
-		while( i > offset )
+		while( i >= offset )
 		{
 			moveOffsetToOffset( mw, i + spaces, i, true );
 			i--;
@@ -71,7 +71,7 @@ void makeOffsetSpace( unsigned offset, int spaces )
 		
 		for( j = 0; j < (unsigned) spaces; j++ )
 		{
-			calculateOffsetPos( i + j + 1, &x, &y );
+			calculateOffsetPos( i + j + 2, &x, &y );
 			MagickCompositeImage( mw, erase, CopyCompositeOp, MagickFalse, x, y );
 		}
 	}
