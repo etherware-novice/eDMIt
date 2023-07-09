@@ -30,13 +30,15 @@ int main(int argc, char *argv[])
 	printf("loaded file %s (%u x %u)\n\n", fsource, pngwidth, pngheight);
 
 
-	char **buf;
+	char *buf;
+	char **arr;
 	iconstate *current = NULL;
 
 	unsigned response, i, j;
 	while(response = vmenuscr( 5, "Save and Quit", "Edit iconstates", "Display general info", "Display all iconstate info", "Preview full dmi"))
 	{
 		current = NULL;
+		arr = NULL;
 		switch( response )
 		{
 			case 1:
@@ -80,14 +82,14 @@ int main(int argc, char *argv[])
 			break;
 
 			case 4:
-			*buf = GETFSUF( FWORK );
-			displayFile( *buf );
-			free( *buf );
+			buf = GETFSUF( FWORK );
+			displayFile( buf );
+			free( buf );
 			break;
 		}
 	}
 
-	*buf = GETFSUF( FWORK );
+	buf = GETFSUF( FWORK );
 	writeStateTable( buf, fsource );
 	
 	free(buf);
