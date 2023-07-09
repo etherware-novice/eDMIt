@@ -33,6 +33,8 @@ int main(int argc, char *argv[])
 	char *buf;
 	char **arr;
 	iconstate *current = NULL;
+	MagickWand *mw = NULL;
+	MagickWand *swapmw = NULL;
 
 	unsigned response, i, j;
 	while(response = vmenuscr( 5, "Save and Quit", "Edit iconstates", "Display general info", "Display all iconstate info", "Preview full dmi"))
@@ -46,8 +48,21 @@ int main(int argc, char *argv[])
 			{
 				free(arr);
 				current = statetable + (response - 1);
-				printf("response: %s\n\n", current->name );
+				printf("state: %s\n", current->name );
 
+				while(response = vmenuscr( 3, "Return to List", "Preview state", "Edit state" ))
+				{
+					switch( response )
+					{
+						case 1:
+						swapmw = constructStateWand( *current, -1 );
+						displayAndConf( swapmw );
+						mw = makeGif( swapmw, current->delay );
+
+						displayAndConf(mw);
+						DestroyMagickWand(mw); mw = NULL;
+					}
+				}
 			}
 			break;
 

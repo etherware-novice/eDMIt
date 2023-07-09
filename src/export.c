@@ -147,7 +147,6 @@ void swapEditState( iconstate data, int dir )
 	free( work );
 }
 
-// TODO implement all-directions
 MagickWand *constructStateWand( iconstate data, int dir )
 {
 	MagickWand *src = imgopenTemp( FWORK );
