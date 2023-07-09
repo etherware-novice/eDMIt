@@ -1,6 +1,23 @@
 #include "dmi.h"
 
 
+char **arrayOfStateNames( unsigned *size )
+{
+	if( !size ) return NULL;
+
+	char *buf[MAXSTATES];
+	unsigned i, j = 0;
+
+	for( i = 0; i < MAXSTATES; i++ )
+		if( statetable[i].name[0] != '\0' )
+			buf[j++] = &(statetable[i].name);
+
+	char **returned = emalloc(sizeof(char *) * j, "allocating array of statenames");
+	memcpy( returned, buf, j );
+
+	*size = j;
+	return returned;
+}
 
 void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src, bool expand )
 {

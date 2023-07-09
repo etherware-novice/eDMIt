@@ -40,7 +40,11 @@ int main(int argc, char *argv[])
 		switch( response )
 		{
 			case 1:
-			puts("iconstates");
+			while(response = menuscr(i, NULL, arr = arrayOfStateNames( &i )))
+			{
+				free(arr);
+				printf("response: %u\n\n", response );
+			}
 			break;
 
 			case 2:
