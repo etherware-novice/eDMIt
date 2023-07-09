@@ -1,4 +1,6 @@
 # eDMIt
 yet ANOTHER dmi editor written in c
 
-WIP not done, feel free to fork/contribute if you want
+Features:
+Currently, just editing existing states
+We support multidir and animation states, though!
