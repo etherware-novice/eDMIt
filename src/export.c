@@ -29,9 +29,11 @@ void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src )
 void swapEditState( iconstate data, int dir )
 {
 	MagickWand *state = constructStateWand( data, dir );
+	MagickResetIterator( state );
 	MagickWand *strip = MagickAppendImages( state, MagickFalse );
 	MagickWand *rect = NULL;
 	DestroyMagickWand( state );
+
 
 	char *tmp = GETFSUF( FTMP );
 	char *work = GETFSUF( FWORK );
@@ -42,6 +44,7 @@ void swapEditState( iconstate data, int dir )
 
 	strip = eLoadImg( tmp );
 	state = eLoadImg( work );
+
 
 	unsigned start = data.offset;
 	unsigned ilace = 1;
@@ -54,12 +57,13 @@ void swapEditState( iconstate data, int dir )
 		for( j = 0; j < data.frames; j++ )
 		{
 			internalOffset = start + i + (j*data.dirs);
-			rect = MagickGetImageRegion( strip, width, height, 0, j * width );
+			rect = MagickGetImageRegion( strip, width, height, j * width, 0 );
 			calculateOffsetPos( internalOffset, &x, &y );
 
 			MagickCompositeImage( state, rect, CopyCompositeOp, MagickFalse, x, y );
 
 			DestroyMagickWand(rect);
+			rect = NULL;
 		}
 
 	MagickWriteImages( state, work, MagickTrue );
