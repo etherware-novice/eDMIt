@@ -63,6 +63,8 @@ void loadStateTable( const char *path )
 	fclose( target );
 
 	recalculateOffsets(0);
+	fcopyTemp( "~", "" );
+	fcopyTemp( FWORK, "");
 }
 
 void newStateEnt( const char *start )

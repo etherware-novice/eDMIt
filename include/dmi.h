@@ -19,8 +19,8 @@
 #define MINCOLDEFAULT 10
 
 #define CHUNK "zTXt"
-#define FWORK ".swap"
-#define FTMP ".tmp" FWORK
+#define FWORK ".swap.png"
+#define FTMP ".tmp.png"
 
 #define GETFSUF( suf ) ( sncatf( NULL, "%s%s", fsource, suf ) )
 
