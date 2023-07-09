@@ -80,5 +80,8 @@ unsigned vmenuscr( unsigned menuCount, ... )
 	for( i = 0; i < menuCount; i++ )
 		ents[i] = va_arg(args, const char *);
 
-	return menuscr( menuCount, ents );
+	unsigned retr = menuscr( menuCount, ents );
+	free(ents);
+
+	return retr;
 }

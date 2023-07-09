@@ -27,19 +27,14 @@ int main(int argc, char *argv[])
 
 	loadStateTable(argv[1]);
 
-	printf("%s (%u x %u)\n\n", fsource, pngwidth, pngheight);
+	printf("loaded file %s (%u x %u)\n\n", fsource, pngwidth, pngheight);
 
-	/*
-	unsigned i, j;
-	iconstate *cur;
 
-	makeOffsetSpace( 19, 8 );
-	*/
-
+	char *buf;
+	iconstate *current = NULL;
 
 	unsigned response, i, j;
-	iconstate *current = NULL;
-	while(response = vmenuscr( 4, "Save and Quit", "Edit iconstates", "Display general info", "Display all iconstate info"))
+	while(response = vmenuscr( 5, "Save and Quit", "Edit iconstates", "Display general info", "Display all iconstate info", "Preview full dmi"))
 	{
 		current = NULL;
 		switch( response )
@@ -78,15 +73,15 @@ int main(int argc, char *argv[])
 
 				printf("] <%u - %hu> %s\n", current->offset, current->size, current->name);
 			}
+			break;
+
+			case 4:
+			buf = GETFSUF( FWORK );
+			displayFile( buf );
+			free( buf );
+			break;
 		}
 	}
-
-	//swapEditState( statetable[7], 1 );
-	//writeStateWork();
-
-	//MagickWand *export = makeGif(constructStateWand(statetable[20], -1), NULL);
-	//displayAndConf( export );
-	//DestroyMagickWand( export );
 
 	clean();
 }
