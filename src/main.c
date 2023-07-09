@@ -45,7 +45,9 @@ int main(int argc, char *argv[])
 			while(response = menuscr(i, NULL, arr = arrayOfStateNames( &i )))
 			{
 				free(arr);
-				printf("response: %u\n\n", response );
+				current = statetable + (response - 1);
+				printf("response: %s\n\n", current->name );
+
 			}
 			break;
 

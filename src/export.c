@@ -12,11 +12,10 @@ char **arrayOfStateNames( unsigned *size )
 		if( statetable[i].name[0] != '\0' )
 			buf[j++] = &(statetable[i].name);
 
-	char **returned = emalloc(sizeof(char *) * j, "allocating array of statenames");
-	memcpy( returned, buf, j );
+	char **returned = emalloc(sizeof(char*) * j, "allocating array of statenames");
 
 	*size = j;
-	return returned;
+	return memcpy( returned, buf, sizeof(char*) * j );
 }
 
 void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src, bool expand )
