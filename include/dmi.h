@@ -51,7 +51,8 @@ unsigned getNextEmptyEnt(void);			// gets next empty entry, testing name
 void recalculateOffsets( unsigned start );	// recalculates the offsets var on the struct, starting at the start var
 
 // export.c - high level writing data
-void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src );	// copies offset src on top of offset dst
+void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src, bool expand );	// copies offset src on top of offset dst, if oob and expand is true it will increase size
+void makeOffsetSpace( unsigned offset, int spaces );			// either makes more space after offset, or removes icons after offset if negative ( -2 would remove offset and the next state )
 void swapEditState( iconstate data, int dir );				// writes the states to FTMP, waits, then writes it back into FWORK
 MagickWand *constructStateWand( iconstate data, int dir );		// constructs statewand for state, for direction dir (or all if -1) (not implemented)
 void writeStateTable( const char *base, const char *path );		// copies the png base from base to path, inserting state table

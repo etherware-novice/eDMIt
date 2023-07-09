@@ -2,28 +2,72 @@
 
 
 
-void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src )
+void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src, bool expand )
 {
-	MagickWand *rect = CloneMagickWand(mw);
 	unsigned x, y;
-
 	calculateOffsetPos( src, &x, &y );
-	MagickCropImage( rect, width, height, x, y );
+
+	MagickWand *rect = MagickGetImageRegion( mw, width, height, x, y );
+	if( !rect ) return;
 
 	if( !calculateOffsetPos( dst, &x, &y ) )
 	{
-		if( x == 0 )
-		{
-			addSize( mw, width, 0 );
-			pngwidth += width;
-		}
-		else
+		if( !expand ) return;
+
+		if( x < pngwidth )
 		{
 			addSize( mw, 0, height );
 			pngheight += height;
+			printf( "%u x %u out of range, new height %u\n", x, y, pngheight );
+		}
+		else
+		{
+			addSize( mw, width, 0 );
+			pngwidth += width;
+			printf( "%u x %u out of range, new width %u\n", x, y, pngwidth );
 		}
 	}
-	MagickCompositeImage( mw, rect, OverCompositeOp, MagickFalse, x, y );
+	MagickCompositeImage( mw, rect, CopyCompositeOp, MagickFalse, x, y );
+}
+
+// TODO fix later, this is....so bordke
+void makeOffsetSpace( unsigned offset, int spaces )
+{
+	char *buf = GETFSUF( FWORK );
+	MagickWand *mw = eLoadImg( buf );
+	MagickWand *rect = NULL;
+
+	PixelWand *pw = NewPixelWand();
+	PixelSetColor( pw, "none" );
+
+	unsigned i, x, y;
+	if( spaces < 0 )
+	{
+		i = offset - spaces;
+		i--;
+		while( calculateOffsetPos( i++, &x, &y ) )
+		{
+			/*
+			if( !calculateOffsetPos( i, &x, &y ) ) break;
+			rect = MagickGetImageRegion( mw, width, height, x, y );
+			calculateOffsetPos( i + src, &x, &y );
+			MagickCompositeImage( mw, rect, CopyCompositeOp, MagickFalse, x, y );
+			ClearMagickWand( rect );
+			printf( "%u ( %u x %u )\n", i, x, y );
+			*/
+			
+			moveOffsetToOffset( mw, i + spaces, i, false );			
+		}
+		//MagickNewImage( rect, width, height, pw );
+		//MagickCompositeImage( mw, rect, CopyCompositeOp, MagickFalse, x, y );
+		displayAndConf( mw );
+	}
+
+	MagickWriteImages( mw, buf, MagickTrue );
+	//DestroyMagickWand(rect);
+	DestroyMagickWand( mw );
+	DestroyPixelWand( pw );
+	free(buf);
 }
 
 void swapEditState( iconstate data, int dir )
