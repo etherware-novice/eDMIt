@@ -35,38 +35,50 @@ void makeOffsetSpace( unsigned offset, int spaces )
 {
 	char *buf = GETFSUF( FWORK );
 	MagickWand *mw = eLoadImg( buf );
-	MagickWand *rect = NULL;
 
+	MagickWand *erase = NewMagickWand();
 	PixelWand *pw = NewPixelWand();
 	PixelSetColor( pw, "none" );
 
-	unsigned i, x, y;
+	MagickNewImage( erase, width, height, pw );
+	DestroyPixelWand( pw );
+
+	unsigned i, j, x, y;
 	if( spaces < 0 )
 	{
 		i = offset - spaces;
 		i--;
-		while( calculateOffsetPos( i++, &x, &y ) )
-		{
-			/*
-			if( !calculateOffsetPos( i, &x, &y ) ) break;
-			rect = MagickGetImageRegion( mw, width, height, x, y );
-			calculateOffsetPos( i + src, &x, &y );
-			MagickCompositeImage( mw, rect, CopyCompositeOp, MagickFalse, x, y );
-			ClearMagickWand( rect );
-			printf( "%u ( %u x %u )\n", i, x, y );
-			*/
-			
+		while( calculateOffsetPos( i++, NULL, NULL ) )
 			moveOffsetToOffset( mw, i + spaces, i, false );			
-		}
-		//MagickNewImage( rect, width, height, pw );
-		//MagickCompositeImage( mw, rect, CopyCompositeOp, MagickFalse, x, y );
+
 		displayAndConf( mw );
+	}
+	else
+	{
+		for( i = MAXSTATES - 1; i > 0; i-- )
+			if( statetable[i].offset )
+			{
+				j = statetable[i].offset + statetable[i].size;
+				break;
+			}
+		if( !(i=j) ) return;
+
+		while( i > offset )
+		{
+			moveOffsetToOffset( mw, i + spaces, i, true );
+			i--;
+		}
+		
+		for( j = 0; j < (unsigned) spaces; j++ )
+		{
+			calculateOffsetPos( i + j + 1, &x, &y );
+			MagickCompositeImage( mw, erase, CopyCompositeOp, MagickFalse, x, y );
+		}
 	}
 
 	MagickWriteImages( mw, buf, MagickTrue );
-	//DestroyMagickWand(rect);
 	DestroyMagickWand( mw );
-	DestroyPixelWand( pw );
+	DestroyMagickWand( erase );
 	free(buf);
 }
 
