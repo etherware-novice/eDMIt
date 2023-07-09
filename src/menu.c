@@ -1,8 +1,9 @@
 #include "dmi.h"
 #include <ctype.h>
 
-unsigned menuscr( unsigned menuCount, const char **entries )
+unsigned menuscr( unsigned menuCount, const char *exitText, const char **entries )
 {
+	if( !exitText ) exitText = "Back to Menu";
 	int i;
 	static const unsigned short perPage = 8;
 	unsigned page = 0;
@@ -16,7 +17,7 @@ unsigned menuscr( unsigned menuCount, const char **entries )
 
 		puts("\n------");
 	
-		for( i = 0; i < perPage; i++ )
+		for( i = 0; i < perPage - 1; i++ )
 		{
 			pageOffset = page * perPage;
 			if( i + pageOffset >= menuCount ) 
@@ -32,7 +33,7 @@ unsigned menuscr( unsigned menuCount, const char **entries )
 		if( canForward )
 			printf("%u ) Next Page\n", perPage + 1);
 
-		printf("\n> ");
+		printf("0 ) %s\n> ", exitText);
 
 		while( true )
 		{
@@ -63,24 +64,29 @@ unsigned menuscr( unsigned menuCount, const char **entries )
 				continue;
 			}
 
+			if( i == 0 )
+				return 0;
+
 			i += pageOffset;
 			if( i > menuCount ) continue;
-			return i - 1;
+			return i;
 		}
 	}
 }
 
-unsigned vmenuscr( unsigned menuCount, ... )
+unsigned vmenuscr( unsigned menuCount, const char *exitText, ... )
 {
+	if( menuCount-- < 2 ) return 0;
+
 	va_list args;
-	va_start(args, menuCount);
+	va_start(args, exitText);
 
 	unsigned i;
 	char **ents = malloc(sizeof(char *) * menuCount);
 	for( i = 0; i < menuCount; i++ )
 		ents[i] = va_arg(args, const char *);
 
-	unsigned retr = menuscr( menuCount, ents );
+	unsigned retr = menuscr( menuCount, exitText, ents );
 	free(ents);
 
 	return retr;

@@ -70,8 +70,8 @@ void writeStateTable( const char *base, const char *path );		// copies the png b
 void writeStateWork(void);						// autofills writestatetable with fsource+FWORK and fsource
 
 // menu.c - menu programming funcs
-unsigned menuscr( unsigned menuCount, const char **entries );		// displays menu, returns users choice
-unsigned vmenuscr( unsigned menuCount, ... );				// variatic version of above
+unsigned menuscr( unsigned menuCount, const char *exitText, const char **entries );		// displays menu, returns users choice
+unsigned vmenuscr( unsigned menuCount, const char *exitText, ... );				// variatic version of above
 
 // buffer.c - wrappers for c functions
 void *emalloc( size_t size, const char *desc );	// on error, display the strerror of the call with the added description (can be null)
