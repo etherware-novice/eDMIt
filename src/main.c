@@ -38,20 +38,20 @@ int main(int argc, char *argv[])
 	MagickWand *swapmw = NULL;
 
 	unsigned response, i, j;
-	while(response = vmenuscr( 5, "Save and Quit", "Edit iconstates", "Display general info", "Display all iconstate info", "Preview full dmi"))
+	while((response = vmenuscr( 5, "Save and Quit", "Edit iconstates", "Display general info", "Display all iconstate info", "Preview full dmi")))
 	{
 		current = NULL;
 		arr = NULL;
 		switch( response )
 		{
 			case 1:
-			while(response = menuscr(i, NULL, arr = arrayOfStateNames( &i )))
+			while((response = menuscr(i, NULL, arr = arrayOfStateNames( &i ))))
 			{
 				free(arr);
 				current = statetable + (response - 1);
 				printf("state: %s\n", current->name );
 
-				while(response = vmenuscr( 4, "Return to List", "Preview state", "Edit state", "Display state info" ))
+				while((response = vmenuscr( 4, "Return to List", "Preview state", "Edit state", "Display state info" )))
 				{
 					switch( response )
 					{
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 						if( current->dirs > 1 )
 						{
 							printf("State has multiple directions (%u), which would you like to edit?\n", current->dirs);
-							while( i = getchar() )
+							while((i = getchar()))
 							{
 								if( !isdigit(i) ) continue;
 								i -= '0';
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 								break;
 							}
 						}
-						printf("Loaded state into file ext %s, press enter when modifications are done", FTMP);
+						printf("Loaded state into file ext %s, press enter when modifications are done\n", FTMP);
 						swapEditState( *current, i );
 						break;
 

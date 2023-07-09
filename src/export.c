@@ -5,7 +5,7 @@ char **arrayOfStateNames( unsigned *size )
 {
 	if( !size ) return NULL;
 
-	char *buf[MAXSTATES];
+	const char *buf[MAXSTATES];
 	unsigned i, j = 0;
 
 	for( i = 0; i < MAXSTATES; i++ )
