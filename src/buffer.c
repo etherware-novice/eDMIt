@@ -38,7 +38,7 @@ void efremove( const char *path, const char *desc )
 {
 	if( !desc ) desc = "generic delete";
 	if( !remove( path ) )
-		fprintf( stderr, "%s (%s): %s\n", path, desc, strerror(errno) );
+		fprintf( stderr, "deleting %s (%s): %s\n", path, desc, strerror(errno) );
 }
 
 void fcopyTemp( const char *dstsuffix, const char *srcsuffix )

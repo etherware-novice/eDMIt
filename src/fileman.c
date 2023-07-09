@@ -108,7 +108,7 @@ void copyFile( const char *dst, const char *src )
 		else read = 0;
 	} while( read > 0 && read == write );
 
-	if( write ) perror( "error while copying file" );
+	if( errno ) perror( "error while copying file" );
 }
 
 
