@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 	printf("loaded file %s (%u x %u)\n\n", fsource, pngwidth, pngheight);
 
 
-	char *buf;
+	char **buf;
 	iconstate *current = NULL;
 
 	unsigned response, i, j;
@@ -76,14 +76,14 @@ int main(int argc, char *argv[])
 			break;
 
 			case 4:
-			buf = GETFSUF( FWORK );
-			displayFile( buf );
-			free( buf );
+			*buf = GETFSUF( FWORK );
+			displayFile( *buf );
+			free( *buf );
 			break;
 		}
 	}
 
-	buf = GETFSUF( FWORK );
+	*buf = GETFSUF( FWORK );
 	writeStateTable( buf, fsource );
 	
 	free(buf);
