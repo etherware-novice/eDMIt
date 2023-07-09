@@ -11,5 +11,5 @@ CFLAGS+=$(:!MagickWand-config --cflags --libs!)
 .PATH.h: $(.CURDIR)/include
 
 
-main: main.c parser.o fileman.o export.o buffer.o imagewand.o
+main: main.c parser.o fileman.o export.o buffer.o imagewand.o menu.o
 	${LINK.c} -o ${.TARGET} ${.ALLSRC} ${LDLIBS}

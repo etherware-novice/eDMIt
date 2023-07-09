@@ -58,6 +58,10 @@ MagickWand *constructStateWand( iconstate data, int dir );		// constructs statew
 void writeStateTable( const char *base, const char *path );		// copies the png base from base to path, inserting state table
 void writeStateWork(void);						// autofills writestatetable with fsource+FWORK and fsource
 
+// menu.c - menu programming funcs
+unsigned menuscr( unsigned menuCount, const char **entries );		// displays menu, returns users choice
+unsigned vmenuscr( unsigned menuCount, ... );				// variatic version of above
+
 // buffer.c - wrappers for c functions
 void *emalloc( size_t size, const char *desc );	// on error, display the strerror of the call with the added description (can be null)
 void *erealloc( void *ptr, size_t size, const char *desc );

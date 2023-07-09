@@ -45,6 +45,11 @@ int main(int argc, char *argv[])
 
 	makeOffsetSpace( 19, 8 );
 
+
+	unsigned response = vmenuscr( 11, "opt1", "opt2", "opt3", "opt4", "opt5", "opt6", "opt7", "opt8", "opt9", "opt10", "opt11" );
+
+	printf( "\n%u\n", response );
+
 	//swapEditState( statetable[7], 1 );
 	//writeStateWork();
 
