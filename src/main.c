@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 				current = statetable + (response - 1);
 				printf("state: %s\n", current->name );
 
-				while(response = vmenuscr( 3, "Return to List", "Preview state", "Edit state" ))
+				while(response = vmenuscr( 4, "Return to List", "Preview state", "Edit state", "Display state info" ))
 				{
 					switch( response )
 					{
@@ -79,6 +79,18 @@ int main(int argc, char *argv[])
 						printf("Loaded state into file ext %s, press enter when modifications are done", FTMP);
 						swapEditState( *current, i );
 						break;
+
+						case 3:
+						printf("\n-----%s-----\n", current->name);
+						printf("directions: %u\t", current->dirs);
+						printf("anim frames: %u\n", current->frames);
+
+						if( current->aux[0] )
+							for( i = 0; i < MAXAUX; i++ )
+								if( current->aux[i] )
+									printf("aux line %u: %s\n", i, current->aux[i]);
+						
+						printf("offset into file: %u\n\n", current->offset);
 					}
 				}
 			}
