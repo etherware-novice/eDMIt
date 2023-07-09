@@ -64,7 +64,7 @@ unsigned menuscr( unsigned menuCount, const char **entries )
 			}
 
 			i += pageOffset;
-			if( i >= menuCount ) continue;
+			if( i > menuCount ) continue;
 			return i - 1;
 		}
 	}

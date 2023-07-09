@@ -13,8 +13,8 @@ void clean(void)
 	}
 	MagickWandTerminus();
 
-	fdelTemp( FWORK );
-	fdelTemp( FTMP );
+	//fdelTemp( FWORK );
+	//fdelTemp( FTMP );
 }
 
 int main(int argc, char *argv[])
@@ -29,26 +29,57 @@ int main(int argc, char *argv[])
 
 	printf("%s (%u x %u)\n\n", fsource, pngwidth, pngheight);
 
+	/*
 	unsigned i, j;
 	iconstate *cur;
-	for( i = 0; i < MAXSTATES; i++ )
-	{
-		cur = statetable + i;
-		if( cur->name[0] == '\0' ) continue;
-		printf("(%u/%u) [ ", cur->frames, cur->dirs);
-
-		for( j = 0; j < cur->frames; j++ )
-			printf("%u ", cur->delay[j]);
-
-		printf("] <%u - %hu> %s\n", cur->offset, cur->size, cur->name);
-	}
 
 	makeOffsetSpace( 19, 8 );
+	*/
 
 
-	unsigned response = vmenuscr( 11, "opt1", "opt2", "opt3", "opt4", "opt5", "opt6", "opt7", "opt8", "opt9", "opt10", "opt11" );
+	unsigned response, i, j;
+	iconstate *current = NULL;
+	while(response = vmenuscr( 4, "Save and Quit", "Edit iconstates", "Display general info", "Display all iconstate info"))
+	{
+		current = NULL;
+		switch( response )
+		{
+			case 1:
+			puts("iconstates");
+			break;
 
-	printf( "\n%u\n", response );
+			case 2:
+			j = 0;
+			recalculateOffsets(0);
+
+			printf("\n--------%s--------\n", fsource );
+			printf("dimensions: %ux%u\n", pngwidth, pngheight);
+
+			for( i = 0; i < MAXSTATES; i++ )
+			{
+				if( statetable[i].name[0] == '\0' ) continue;
+				current = statetable + i;
+				j++;
+			}
+			printf("state count: %u\n", j);
+			printf("total individual icons: %u\n\n", current->offset + current->size);
+			getchar();
+			break;
+
+			case 3:
+			for( i = 0; i < MAXSTATES; i++ )
+			{
+				current = statetable + i;
+				if( current->name[0] == '\0' ) continue;
+				printf("(%u/%u) [ ", current->frames, current->dirs);
+
+				for( j = 0; j < current->frames; j++ )
+					printf("%u ", current->delay[j]);
+
+				printf("] <%u - %hu> %s\n", current->offset, current->size, current->name);
+			}
+		}
+	}
 
 	//swapEditState( statetable[7], 1 );
 	//writeStateWork();
