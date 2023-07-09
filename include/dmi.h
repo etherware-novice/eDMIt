@@ -31,7 +31,7 @@
 
 #define CHUNK "zTXt"
 #define FWORK ".swap.png"
-#define FTMP ".tmp.gif"
+#define FTMP ".tmp.png"
 
 #define GETFSUF( suf ) ( sncatf( NULL, "%s%s", fsource, suf ) )
 

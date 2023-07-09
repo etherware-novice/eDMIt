@@ -1,4 +1,5 @@
 #include "dmi.h"
+#include <ctype.h>
 
 
 void clean(void)
@@ -56,11 +57,28 @@ int main(int argc, char *argv[])
 					{
 						case 1:
 						swapmw = constructStateWand( *current, -1 );
-						displayAndConf( swapmw );
 						mw = makeGif( swapmw, current->delay );
 
 						displayAndConf(mw);
 						DestroyMagickWand(mw); mw = NULL;
+						break;
+
+						case 2:
+						i = 0;
+						if( current->dirs > 1 )
+						{
+							printf("State has multiple directions (%u), which would you like to edit?\n", current->dirs);
+							while( i = getchar() )
+							{
+								if( !isdigit(i) ) continue;
+								i -= '0';
+								if( ++i > current->dirs ) continue;
+								break;
+							}
+						}
+						printf("Loaded state into file ext %s, press enter when modifications are done", FTMP);
+						swapEditState( *current, i );
+						break;
 					}
 				}
 			}

@@ -133,7 +133,7 @@ MagickWand *makeGif( MagickWand *frames, unsigned *timing )
 // TODO make it getc user input
 bool displayAndConf( MagickWand *displayed )
 {
-	char *tmpFile = GETFSUF( FTMP );
+	char *tmpFile = GETFSUF( "prev.gif" );
 
 	MagickResetIterator( displayed );
 	MagickWriteImages( displayed, tmpFile, MagickTrue );

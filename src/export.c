@@ -113,6 +113,7 @@ void swapEditState( iconstate data, int dir )
 	DestroyMagickWand( strip );
 
 	getchar();
+	getchar();
 
 	strip = eLoadImg( tmp );
 	state = eLoadImg( work );
