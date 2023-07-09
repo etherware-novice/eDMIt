@@ -153,11 +153,9 @@ void writeStateTable( const char *base, const char *path )
 	char buf[8192];
 
 	// copies header
-	long startpos = 0x21;
-
-	read = fread( buf, 1, startpos - 1, source );
-	if( read ) write = fwrite( buf, 1, startpos - 1, source );
-	if( read != write ) { perror("copying state table"); return; }
+	long startpos;
+	
+	for( startpos = 0; startpos < 0x21; startpos++ ) if( (*buf = getc(source)) != EOF ) putc(*buf, target);
 
 	fprintf( target, "0000zTXt%s", header );
 	fputc( '\0', target );
@@ -183,4 +181,11 @@ void writeStateTable( const char *base, const char *path )
 	printf("wrote %ld bytes\n", ftell(target));
 	fclose(target);
 	fclose(source);
+}
+
+void writeStateWork(void)
+{
+	char *buf = GETFSUF( FWORK );
+	writeStateTable( buf, fsource );
+	free( buf );
 }

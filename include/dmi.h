@@ -55,6 +55,7 @@ void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src );	// copies
 void swapEditState( iconstate data, int dir );				// writes the states to FTMP, waits, then writes it back into FWORK
 MagickWand *constructStateWand( iconstate data, int dir );		// constructs statewand for state, for direction dir (or all if -1) (not implemented)
 void writeStateTable( const char *base, const char *path );		// copies the png base from base to path, inserting state table
+void writeStateWork(void);						// autofills writestatetable with fsource+FWORK and fsource
 
 // buffer.c - wrappers for c functions
 void *emalloc( size_t size, const char *desc );	// on error, display the strerror of the call with the added description (can be null)

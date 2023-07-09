@@ -26,8 +26,6 @@ int main(int argc, char *argv[])
 	}
 
 	loadStateTable(argv[1]);
-	writeStateTable( "checker.png", "/tmp/checker.dmi" );
-
 
 	printf("%s (%u x %u)\n\n", fsource, pngwidth, pngheight);
 
@@ -46,6 +44,7 @@ int main(int argc, char *argv[])
 	}
 
 	swapEditState( statetable[10], -1 );
+	writeStateWork();
 
 	//MagickWand *export = makeGif(constructStateWand(statetable[20], -1), NULL);
 	//displayAndConf( export );
