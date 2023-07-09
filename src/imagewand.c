@@ -1,14 +1,5 @@
 #include <dmi.h>
 
-#ifndef IMGVIEW
-
-#ifdef _WIN32
-#define IMGVIEW "start"
-#else
-#define IMGVIEW "xdg-open"
-#endif
-
-#endif
 
 
 bool calculateOffsetPos( unsigned offset, unsigned *x, unsigned *y )
@@ -146,11 +137,8 @@ bool displayAndConf( MagickWand *displayed )
 
 	MagickResetIterator( displayed );
 	MagickWriteImages( displayed, tmpFile, MagickTrue );
+	displayFile( tmpFile );
 
-	char *syscall = sncatf( NULL, "%s %s", IMGVIEW, tmpFile );
-	system( syscall );
-
-	free( syscall );
 	efremove( tmpFile, "removes temporary show-to-user file" );
 	free( tmpFile );
 	return false;

@@ -12,6 +12,17 @@
 #include <errno.h>
 
 
+#ifndef IMGVIEW
+
+#ifdef _WIN32
+#define IMGVIEW "start"
+#else
+#define IMGVIEW "xdg-open"
+#endif
+
+#endif
+
+
 #define MAXNAME 64
 #define MAXSTATES 200
 #define MAXAUX 5
@@ -75,6 +86,7 @@ void fdelTemp( const char *suffix );				// deletes file fsource + suffix
 
 void fswapos( FILE *stream, long *pos );			// seeks to pos, saves old stream position to pos
 char *sncatf( char *str, const char *format, ... );		// takes a MALLOCED char array of size `size`, appends formatted string, updates size pointer to new size of block nd returns
+void displayFile( const char *path );				// displays file path
 
 // imagewand.c - image manipulation with imagemagick
 bool calculateOffsetPos( unsigned offset, unsigned *x, unsigned *y );	// calculates the topleft position of the offset into the statetable, returns false if the position is out of bounds

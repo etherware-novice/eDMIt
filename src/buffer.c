@@ -109,3 +109,11 @@ char *sncatf( char *str, const char *format, ... )
 
 	return str;
 }
+
+void displayFile( const char *path )
+{
+	char *syscall = sncatf( NULL, "%s %s", IMGVIEW, path );
+	system( syscall );
+
+	free( syscall );
+}
