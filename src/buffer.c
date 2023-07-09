@@ -38,7 +38,7 @@ void efremove( const char *path, const char *desc )
 {
 	if( !desc ) desc = "generic delete";
 	if( !remove( path ) )
-		fprintf( stderr, "%s (%s): %s", path, desc, strerror(errno) );
+		fprintf( stderr, "%s (%s): %s\n", path, desc, strerror(errno) );
 }
 
 void fcopyTemp( const char *dstsuffix, const char *srcsuffix )
@@ -75,7 +75,7 @@ MagickWand *imgopenTemp( const char *suffix )
 void fdelTemp( const char *suffix )
 {
 	char *buf = GETFSUF( suffix );
-	efremove( buf );
+	efremove( buf, "deleting temp file" );
 	free( buf );
 }
 

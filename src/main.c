@@ -12,6 +12,9 @@ void clean(void)
 			free( statetable[i].aux[j] );
 	}
 	MagickWandTerminus();
+
+	fdelTemp( FWORK );
+	fdelTemp( FTMP );
 }
 
 int main(int argc, char *argv[])

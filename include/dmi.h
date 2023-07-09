@@ -59,7 +59,7 @@ void writeStateTable( const char *base, const char *path );		// copies the png b
 void *emalloc( size_t size, const char *desc );	// on error, display the strerror of the call with the added description (can be null)
 void *erealloc( void *ptr, size_t size, const char *desc );
 FILE *efopen( const char *path, const char *mode, const char *desc );
-void efremove( const char *path );
+void efremove( const char *path, const char *desc );
 
 void fcopyTemp( const char *dstsuffix, const char *srcsuffix );	// copies fsource + srcsuffix to fsource + dstsuffix (or plain fsource if null)
 FILE *fopenTemp( const char *suffix, const char *mode );	// opens file fsource + suffix

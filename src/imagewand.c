@@ -142,7 +142,7 @@ MagickWand *makeGif( MagickWand *frames, unsigned *timing )
 // TODO make it getc user input
 bool displayAndConf( MagickWand *displayed )
 {
-	char tmpFile[] = "/tmp/export.gif";
+	char *tmpFile = GETFSUF( FTMP );
 
 	MagickResetIterator( displayed );
 	MagickWriteImages( displayed, tmpFile, MagickTrue );
@@ -151,5 +151,7 @@ bool displayAndConf( MagickWand *displayed )
 	system( syscall );
 
 	free( syscall );
+	efremove( tmpFile, "removes temporary show-to-user file" );
+	free( tmpFile );
 	return false;
 }
