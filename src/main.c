@@ -45,10 +45,11 @@ int main(int argc, char *argv[])
 		printf("] <%u - %hu> %s\n", cur->offset, cur->size, cur->name);
 	}
 
+	swapEditState( statetable[10], -1 );
 
-	MagickWand *export = makeGif(constructStateWand(statetable[20], -1), NULL);
-	displayAndConf( export );
-	DestroyMagickWand( export );
+	//MagickWand *export = makeGif(constructStateWand(statetable[20], -1), NULL);
+	//displayAndConf( export );
+	//DestroyMagickWand( export );
 
 	clean();
 }

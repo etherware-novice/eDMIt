@@ -26,7 +26,51 @@ void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src )
 	MagickCompositeImage( mw, rect, OverCompositeOp, MagickFalse, x, y );
 }
 
-// TODO use FWORK tmp instead of original
+void swapEditState( iconstate data, int dir )
+{
+	MagickWand *state = constructStateWand( data, dir );
+	MagickWand *strip = MagickAppendImages( state, MagickFalse );
+	MagickWand *rect = NULL;
+	DestroyMagickWand( state );
+
+	char *tmp = GETFSUF( FTMP );
+	char *work = GETFSUF( FWORK );
+	MagickWriteImages( strip, tmp, MagickTrue );
+	DestroyMagickWand( strip );
+
+	getchar();
+
+	strip = eLoadImg( tmp );
+	state = eLoadImg( work );
+
+	unsigned start = data.offset;
+	unsigned ilace = 1;
+	if( dir < 0 ) ilace = data.dirs;
+	else start = data.offset += dir * data.frames;
+
+	unsigned short i, j, internalOffset;
+	unsigned x, y;
+	for( i = 0; i < ilace; i++ )
+		for( j = 0; j < data.frames; j++ )
+		{
+			internalOffset = start + i + (j*data.dirs);
+			rect = MagickGetImageRegion( strip, width, height, 0, j * width );
+			calculateOffsetPos( internalOffset, &x, &y );
+
+			MagickCompositeImage( state, rect, CopyCompositeOp, MagickFalse, x, y );
+
+			DestroyMagickWand(rect);
+		}
+
+	MagickWriteImages( state, work, MagickTrue );
+
+	efremove( tmp, "cleaning up temp file" );
+	DestroyMagickWand( state );
+	DestroyMagickWand( strip );
+	free( tmp );
+	free( work );
+}
+
 // TODO implement all-directions
 MagickWand *constructStateWand( iconstate data, int dir )
 {
