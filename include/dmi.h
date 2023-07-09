@@ -59,10 +59,12 @@ void writeStateTable( const char *base, const char *path );		// copies the png b
 void *emalloc( size_t size, const char *desc );	// on error, display the strerror of the call with the added description (can be null)
 void *erealloc( void *ptr, size_t size, const char *desc );
 FILE *efopen( const char *path, const char *mode, const char *desc );
+void efremove( const char *path );
 
 void fcopyTemp( const char *dstsuffix, const char *srcsuffix );	// copies fsource + srcsuffix to fsource + dstsuffix (or plain fsource if null)
 FILE *fopenTemp( const char *suffix, const char *mode );	// opens file fsource + suffix
 MagickWand *imgopenTemp( const char *suffix );			// opens file fsource + suffix as a magickwand
+void fdelTemp( const char *suffix );				// deletes file fsource + suffix
 
 void fswapos( FILE *stream, long *pos );			// seeks to pos, saves old stream position to pos
 char *sncatf( char *str, const char *format, ... );		// takes a MALLOCED char array of size `size`, appends formatted string, updates size pointer to new size of block nd returns

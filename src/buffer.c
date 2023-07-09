@@ -34,6 +34,13 @@ FILE *efopen( const char *path, const char *mode, const char *desc )
 	return block;
 }
 
+void efremove( const char *path, const char *desc )
+{
+	if( !desc ) desc = "generic delete";
+	if( !remove( path ) )
+		fprintf( stderr, "%s (%s): %s", path, desc, strerror(errno) );
+}
+
 void fcopyTemp( const char *dstsuffix, const char *srcsuffix )
 {
 	if( !dstsuffix || !srcsuffix ) return;
@@ -63,6 +70,13 @@ MagickWand *imgopenTemp( const char *suffix )
 
 	free(buf);
 	return mw;
+}
+
+void fdelTemp( const char *suffix )
+{
+	char *buf = GETFSUF( suffix );
+	efremove( buf );
+	free( buf );
 }
 
 void fswapos( FILE *stream, long *pos )
