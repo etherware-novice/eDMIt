@@ -28,6 +28,7 @@ unsigned menuscr( unsigned menuCount, const char *exitText, const char **entries
 			printf("%u ) %s\n", i + 1, entries[i + pageOffset]);
 		}
 
+		puts("");
 		if( page )
 			printf("%u ) Previous Page\n", perPage);
 		if( canForward )
