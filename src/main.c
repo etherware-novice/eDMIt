@@ -13,8 +13,8 @@ void clean(void)
 	}
 	MagickWandTerminus();
 
-	//fdelTemp( FWORK );
-	//fdelTemp( FTMP );
+	fdelTemp( FWORK );
+	fdelTemp( FTMP );
 }
 
 int main(int argc, char *argv[])
@@ -83,5 +83,9 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	buf = GETFSUF( FWORK );
+	writeStateTable( buf, fsource );
+	
+	free(buf);
 	clean();
 }
