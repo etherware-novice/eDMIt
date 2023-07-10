@@ -85,6 +85,9 @@ FILE *fopenTemp( const char *suffix, const char *mode );	// opens file fsource +
 MagickWand *imgopenTemp( const char *suffix );			// opens file fsource + suffix as a magickwand
 void fdelTemp( const char *suffix );				// deletes file fsource + suffix
 
+void arrshiftfw( void *arr, unsigned start, size_t size, size_t nmemb );	// shifts array forward one starting at start, zeroing the old start pos and discarding last entry
+void arrshiftbw( void *arr, unsigned start, size_t size, size_t nmemb );	// shifts array backward one starting at start, zeroing the last entry and discarding start
+
 void fswapos( FILE *stream, long *pos );			// seeks to pos, saves old stream position to pos
 char *sncatf( char *str, const char *format, ... );		// takes a MALLOCED char array of size `size`, appends formatted string, updates size pointer to new size of block nd returns
 void displayFile( const char *path );				// displays file path

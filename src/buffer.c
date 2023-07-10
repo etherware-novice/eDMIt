@@ -79,6 +79,34 @@ void fdelTemp( const char *suffix )
 	free( buf );
 }
 
+void arrshiftfw( void *arr, unsigned start, size_t size, size_t nmemb )
+{
+	if( !arr ) return;
+	if( start >= nmemb - 1 ) return;
+
+	unsigned arrBytes = size * nmemb;
+	char *cast = arr;
+	start *= size;
+	cast += start;
+
+	memmove( cast + size, cast, arrBytes - (start + size) );
+	memset( cast, 0, size );
+}
+
+void arrshiftbw( void *arr, unsigned start, size_t size, size_t nmemb )
+{
+	if( !arr ) return;
+	if( start >= nmemb - 1 ) return;
+
+	unsigned arrBytes = size * nmemb;
+	char *cast = arr;
+	start *= size;
+	cast += start;
+
+	memmove( cast, cast + size, arrBytes - ( start + size ) );
+	memset( (cast - start) + (arrBytes - size), 0, size );
+}
+
 void fswapos( FILE *stream, long *pos )
 {
 	long buf = ftell(stream);
