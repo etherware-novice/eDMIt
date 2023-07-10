@@ -144,9 +144,15 @@ int main(int argc, char *argv[])
 						while( !statetable[current].frames )
 						{
 							fgets(buf, MAXNAME, stdin);
-							statetable[current].frames = strtoul(buf, NULL, 10);
+							i = strtoul(buf, NULL, 10);
+
 							if( errno ) perror("parsing error");
+							statetable[current].frames = i;
 						}
+
+						statetable[current].delay = malloc(sizeof(unsigned) * i );
+						for( j = 0; j < i; j++ )
+							statetable[current].delay[j] = 1;
 
 						printf("How many directions? (1, 4, 8)\n");
 						while( !statetable[current].dirs )
@@ -158,6 +164,7 @@ int main(int argc, char *argv[])
 							if( !i ) continue;
 							if( i == 1 || i == 4 || i == 8 ) statetable[current].dirs = i;
 						}
+
 
 						if( current )
 						{
