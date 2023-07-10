@@ -132,7 +132,12 @@ int main(int argc, char *argv[])
 								if( statetable[current].aux[i] )
 									printf("aux line %u: %s\n", i, statetable[current].aux[i]);
 						
-						printf("offset into file: %u\n\n", statetable[current].offset);
+						printf("offset into file: %u\n", statetable[current].offset);
+
+						printf("animation delays per frame:\n [");
+						for( i = 0; i < statetable[current].frames; i++ )
+							printf(" %u", statetable[current].delay[i]);
+						printf(" ]\n\n");
 						break;
 
 						case 6:
