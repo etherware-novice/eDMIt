@@ -70,6 +70,8 @@ unsigned menuscr( unsigned menuCount, const char *exitText, const char **entries
 
 			i += pageOffset;
 			if( (unsigned) i > menuCount ) continue;
+			
+			while( getchar() != '\n' );
 			return i;
 		}
 	}
