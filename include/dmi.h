@@ -22,6 +22,7 @@
 
 #endif
 
+#define BYONDTPS 10
 
 #define MAXNAME 64
 #define MAXSTATES 200
@@ -100,7 +101,7 @@ void addSize( MagickWand *mw, int xMov, int yMov );								// adds xmov and ymov
 void multSize( MagickWand *mw, double xMov, double yMov );							// multiplies current x and y of wand by xmov/ymov
 MagickWand *appendImg( MagickWand *dst, MagickWand *src, unsigned x, unsigned y, unsigned width, unsigned height );	// appends rectangle from src to bottom right of dst, or makes a new image if dst is NULL
 void appendImgInPlace( MagickWand **dst, MagickWand *src, unsigned x, unsigned y, unsigned width, unsigned height );	// frees the old dest, updates the var
-MagickWand *makeGif( MagickWand *frames, unsigned *timing );							// makes a gif with frames, and optionally an array of timing info (ms)
+MagickWand *makeGif( MagickWand *frames, const unsigned *timing );							// sets up a wand to be exported as gif, optionally with a timing array provided
 bool displayAndConf( MagickWand *displayed );									// displays to user, prompts for y/n, returns answer
 
 // fileman.c - low level file calls

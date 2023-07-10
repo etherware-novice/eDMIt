@@ -46,6 +46,8 @@ MagickWand *eLoadImg( const char *path )
 	MagickSetImageBackgroundColor( mw, pw );
 
 	DestroyPixelWand(pw);
+
+	MagickSetImageTicksPerSecond( mw, BYONDTPS );
 	return mw;
 }
 
@@ -108,22 +110,29 @@ void appendImgInPlace( MagickWand **dst, MagickWand *src, unsigned x, unsigned y
 	*dst = tmp;
 }
 
-// TODO read timing info
-MagickWand *makeGif( MagickWand *frames, unsigned *timing )
+// i never want to touch magickwand again
+MagickWand *makeGif( MagickWand *frames, const unsigned *timing )
 {
-	MagickWand *gif = frames;//MagickCoalesceImages(frames);
+	MagickWand *gif = NewMagickWand();
+	MagickWand *curFrame = NULL;
 	unsigned i;
 
-	/*
-	size_t optCount, ti;
-	char **opts = MagickGetOptions( frames, NULL, &optCount );
-	for( ti = 0; ti < optCount; ti++ )
-		puts(opts[ti]);
+	MagickResetIterator( frames );
+	displayAndConf(frames);
 
-	for( i = 1; i < MagickGetNumberImages(gif); i++ )
-		continue;
-	*/
+	while( MagickNextImage( frames ) != MagickFalse )
+	{
+		curFrame = MagickGetImage( frames );
+		printf("%u\n", *timing);
+		for( i = 0; i < *timing; i++ )
+			MagickAddImage( gif, curFrame );
 
+		DestroyMagickWand(curFrame);
+		//MagickNextImage( frames );
+		timing++;
+	}
+	//MagickSetImageIterations( frames, 10 * *(timing++) );
+	MagickResetIterator( gif );
 	MagickSetOption( gif, "loop", "0" );
 
 	return gif;

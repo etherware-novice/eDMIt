@@ -60,6 +60,7 @@ int main(int argc, char *argv[])
 
 						displayAndConf(mw);
 						DestroyMagickWand(mw); mw = NULL;
+						DestroyMagickWand(swapmw); swapmw = NULL;
 						break;
 
 						case 2:
