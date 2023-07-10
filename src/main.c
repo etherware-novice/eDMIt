@@ -50,11 +50,23 @@ int main(int argc, char *argv[])
 				current = response - 1;
 				printf("state: %s\n", statetable[current].name );
 
-				while((response = vmenuscr( 7, "Return to List", "Preview state", "Edit state", "Add/Remove Frames", "Display state info", "Add state before", "Add state after" )))
+				while((response = vmenuscr( 8, "Return to List", "Rename state", "Preview state", "Edit state", "Add/Remove Frames", "Display state info", "Add state before", "Add state after" )))
 				{
 					switch( response )
 					{
 						case 1:
+						printf("What name should it have? (Empty to cancel)\n");
+						if(!fgets(buf, MAXNAME, stdin)) break;
+
+						for( j = 0; j < MAXNAME; j++ )
+						{
+							if( buf[j] != '\n' ) continue;
+							buf[j] = '\0';
+						};
+						strncpy( statetable[current].name, buf, MAXNAME - 1 );
+						break;
+
+						case 2:
 						swapmw = constructStateWand( statetable[current], -1 );
 						mw = makeGif( swapmw, statetable[current].delay );
 
@@ -63,7 +75,7 @@ int main(int argc, char *argv[])
 						DestroyMagickWand(swapmw); swapmw = NULL;
 						break;
 
-						case 2:
+						case 3:
 						i = 0;
 						if( statetable[current].dirs > 1 )
 						{
@@ -80,7 +92,7 @@ int main(int argc, char *argv[])
 						swapEditState( statetable[current], i );
 						break;
 
-						case 3:
+						case 4:
 						puts("How many frames to add/remove? (Negative for remove)");
 						while((i = getchar()))
 						{
@@ -95,7 +107,7 @@ int main(int argc, char *argv[])
 
 						break;
 
-						case 4:
+						case 5:
 						printf("\n-----%s-----\n", statetable[current].name);
 						printf("directions: %u\t", statetable[current].dirs);
 						printf("anim frames: %u\n", statetable[current].frames);
@@ -108,9 +120,9 @@ int main(int argc, char *argv[])
 						printf("offset into file: %u\n\n", statetable[current].offset);
 						break;
 
-						case 5:
 						case 6:
-						response -= 5;
+						case 7:
+						response -= 6;
 						if( statetable[MAXSTATES - 1].name[0] != '\0' ) break;
 
 						printf("What name should it have? (Empty to cancel)\n");
