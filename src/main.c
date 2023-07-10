@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 				current = response - 1;
 				printf("state: %s\n", statetable[current].name );
 
-				while((response = vmenuscr( 5, "Return to List", "Preview state", "Edit state", "Add/Remove Frames", "Display state info" )))
+				while((response = vmenuscr( 7, "Return to List", "Preview state", "Edit state", "Add/Remove Frames", "Display state info", "Add state before", "Add state after" )))
 				{
 					switch( response )
 					{
@@ -105,7 +105,48 @@ int main(int argc, char *argv[])
 									printf("aux line %u: %s\n", i, statetable[current].aux[i]);
 						
 						printf("offset into file: %u\n\n", statetable[current].offset);
+						break;
 
+						case 5:
+						case 6:
+						response -= 5;
+						if( statetable[MAXSTATES - 1].name[0] != '\0' ) break;
+
+						printf("What name should it have? (Empty to cancel)\n");
+						if(!fgets(buf, MAXNAME, stdin)) break;
+
+						for( j = 0; j < MAXNAME; j++ )
+						{
+							if( buf[j] != '\n' ) continue;
+							buf[j] = '\0';
+							break;
+						}
+
+						current += response;
+						arrshiftfw(statetable, current, sizeof(iconstate), MAXSTATES);
+						
+						strncpy( statetable[current].name, buf, MAXNAME - 1 );
+
+						printf("How many frames?\n");
+						while( !statetable[current].frames )
+						{
+							fgets(buf, MAXNAME, stdin);
+							statetable[current].frames = strtoul(buf, NULL, 10);
+							if( errno ) perror("parsing error");
+						}
+
+						printf("How many directions? (1, 4, 8)\n");
+						while( !statetable[current].dirs )
+						{
+							fgets(buf, MAXNAME, stdin);
+							i = strtoul(buf, NULL, 10);
+							if( errno ) perror("parsing error");
+
+							if( !i ) continue;
+							if( i == 1 || i == 4 || i == 8 ) statetable[current].dirs = i;
+						}
+						recalculateOffsets(current - 1);
+						break;
 					}
 				}
 			}
