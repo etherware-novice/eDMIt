@@ -31,33 +31,32 @@ int main(int argc, char *argv[])
 	printf("loaded file %s (%u x %u)\n\n", fsource, pngwidth, pngheight);
 
 
-	char *buf;
-	char **arr;
-	iconstate *current = NULL;
+	char buf[MAXNAME];
+	char **arr = NULL;
 	MagickWand *mw = NULL;
 	MagickWand *swapmw = NULL;
 
-	unsigned response, i, j;
+	unsigned current, response, i, j;
 	while((response = vmenuscr( 5, "Save and Quit", "Edit iconstates", "Display general info", "Display all iconstate info", "Preview full dmi")))
 	{
-		current = NULL;
-		arr = NULL;
 		switch( response )
 		{
 			case 1:
 			while((response = menuscr(i, NULL, arr = arrayOfStateNames( &i ))))
 			{
 				free(arr);
-				current = statetable + (response - 1);
-				printf("state: %s\n", current->name );
+				arr = NULL;
+
+				current = response - 1;
+				printf("state: %s\n", statetable[current].name );
 
 				while((response = vmenuscr( 5, "Return to List", "Preview state", "Edit state", "Add/Remove Frames", "Display state info" )))
 				{
 					switch( response )
 					{
 						case 1:
-						swapmw = constructStateWand( *current, -1 );
-						mw = makeGif( swapmw, current->delay );
+						swapmw = constructStateWand( statetable[current], -1 );
+						mw = makeGif( swapmw, statetable[current].delay );
 
 						displayAndConf(mw);
 						DestroyMagickWand(mw); mw = NULL;
@@ -65,19 +64,19 @@ int main(int argc, char *argv[])
 
 						case 2:
 						i = 0;
-						if( current->dirs > 1 )
+						if( statetable[current].dirs > 1 )
 						{
-							printf("State has multiple directions (%u), which would you like to edit?\n", current->dirs);
+							printf("State has multiple directions (%u), which would you like to edit?\n", statetable[current].dirs);
 							while((i = getchar()))
 							{
 								if( !isdigit(i) ) continue;
 								i -= '0';
-								if( ++i > current->dirs ) continue;
+								if( ++i > statetable[current].dirs ) continue;
 								break;
 							}
 						}
 						printf("Loaded state into file ext %s, press enter when modifications are done\n", FTMP);
-						swapEditState( *current, i );
+						swapEditState( statetable[current], i );
 						break;
 
 						case 3:
@@ -89,23 +88,24 @@ int main(int argc, char *argv[])
 							break;
 						}
 						if( i == 0 ) break;
-						makeOffsetSpace( (current->offset + current->size) - 1, i * current->dirs );
-						current->frames += i;
+						makeOffsetSpace( (statetable[current].offset + statetable[current].size) - 1, i * statetable[current].dirs );
+						statetable[current].frames += i;
 						recalculateOffsets(0);
 
 						break;
 
 						case 4:
-						printf("\n-----%s-----\n", current->name);
-						printf("directions: %u\t", current->dirs);
-						printf("anim frames: %u\n", current->frames);
+						printf("\n-----%s-----\n", statetable[current].name);
+						printf("directions: %u\t", statetable[current].dirs);
+						printf("anim frames: %u\n", statetable[current].frames);
 
-						if( current->aux[0] )
+						if( statetable[current].aux[0] )
 							for( i = 0; i < MAXAUX; i++ )
-								if( current->aux[i] )
-									printf("aux line %u: %s\n", i, current->aux[i]);
+								if( statetable[current].aux[i] )
+									printf("aux line %u: %s\n", i, statetable[current].aux[i]);
 						
-						printf("offset into file: %u\n\n", current->offset);
+						printf("offset into file: %u\n\n", statetable[current].offset);
+
 					}
 				}
 			}
@@ -121,39 +121,35 @@ int main(int argc, char *argv[])
 			for( i = 0; i < MAXSTATES; i++ )
 			{
 				if( statetable[i].name[0] == '\0' ) continue;
-				current = statetable + i;
 				j++;
 			}
 			printf("state count: %u\n", j);
-			printf("total individual icons: %u\n\n", current->offset + current->size);
+			printf("total individual icons: %u\n\n", statetable[j].offset + statetable[j].size);
 			getchar();
 			break;
 
 			case 3:
 			for( i = 0; i < MAXSTATES; i++ )
 			{
-				current = statetable + i;
-				if( current->name[0] == '\0' ) continue;
-				printf("(%u/%u) [ ", current->frames, current->dirs);
+				if( statetable[i].name[0] == '\0' ) continue;
+				printf("(%u/%u) [ ", statetable[i].frames, statetable[i].dirs);
 
-				for( j = 0; j < current->frames; j++ )
-					printf("%u ", current->delay[j]);
+				for( j = 0; j < statetable[i].frames; j++ )
+					printf("%u ", statetable[i].delay[j]);
 
-				printf("] <%u - %hu> %s\n", current->offset, current->size, current->name);
+				printf("] <%u - %hu> %s\n", statetable[i].offset, statetable[i].size, statetable[i].name);
 			}
 			break;
 
 			case 4:
-			buf = GETFSUF( FWORK );
+			snprintf( buf, MAXNAME-1, "%s%s", fsource, FWORK );
 			displayFile( buf );
-			free( buf );
 			break;
 		}
 	}
 
-	buf = GETFSUF( FWORK );
+	snprintf( buf, MAXNAME-1, "%s%s", fsource, FWORK );
 	writeStateTable( buf, fsource );
 	
-	free(buf);
 	clean();
 }
