@@ -118,7 +118,6 @@ MagickWand *makeGif( MagickWand *frames, const unsigned *timing )
 	unsigned i;
 
 	MagickResetIterator( frames );
-	displayAndConf(frames);
 
 	while( MagickNextImage( frames ) != MagickFalse )
 	{
