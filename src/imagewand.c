@@ -141,13 +141,17 @@ MagickWand *makeGif( MagickWand *frames, const unsigned *timing )
 // TODO make it getc user input
 bool displayAndConf( MagickWand *displayed )
 {
-	char *tmpFile = "foo.gif";//GETFSUF( "prev.gif" );
+	const char *tmpFile = NULL;
+	if( fsource )
+		char *tmpFile = GETFSUF( "prev.gif" );
+	else
+		tmpFile = "tempDisplay.gif";
 
 	MagickResetIterator( displayed );
 	MagickWriteImages( displayed, tmpFile, MagickTrue );
 	displayFile( tmpFile );
 
-	efremove( tmpFile, "removes temporary show-to-user file" );
-	//free( tmpFile );
+	//efremove( tmpFile, "removes temporary show-to-user file" );
+	if( fsource ) free( tmpFile );
 	return false;
 }
