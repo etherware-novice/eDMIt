@@ -145,7 +145,14 @@ int main(int argc, char *argv[])
 							if( !i ) continue;
 							if( i == 1 || i == 4 || i == 8 ) statetable[current].dirs = i;
 						}
-						recalculateOffsets(current - 1);
+
+						if( current )
+						{
+							recalculateOffsets(current-1);
+							makeOffsetSpace( statetable[current - 1].offset + (statetable[current-1].size - 1), statetable[current].size );
+						}
+						else 
+							recalculateOffsets(0);
 						break;
 					}
 				}

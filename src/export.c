@@ -43,10 +43,9 @@ void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src, bool expand
 			printf( "%u x %u out of range, new width %u\n", x, y, pngwidth );
 		}
 	}
-	MagickCompositeImage( mw, rect, CopyCompositeOp, MagickFalse, x, y );
+	MagickCompositeImage( mw, rect, CopyCompositeOp, MagickTrue, x, y );
 }
 
-// TODO fix later, this is....so bordke
 void makeOffsetSpace( unsigned offset, int spaces )
 {
 	char *buf = GETFSUF( FWORK );
@@ -67,7 +66,6 @@ void makeOffsetSpace( unsigned offset, int spaces )
 		while( calculateOffsetPos( i++, NULL, NULL ) )
 			moveOffsetToOffset( mw, i + spaces, i, false );			
 
-		displayAndConf( mw );
 	}
 	else
 	{

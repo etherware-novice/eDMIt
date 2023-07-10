@@ -133,13 +133,13 @@ MagickWand *makeGif( MagickWand *frames, unsigned *timing )
 // TODO make it getc user input
 bool displayAndConf( MagickWand *displayed )
 {
-	char *tmpFile = GETFSUF( "prev.gif" );
+	char *tmpFile = "foo.gif";//GETFSUF( "prev.gif" );
 
 	MagickResetIterator( displayed );
 	MagickWriteImages( displayed, tmpFile, MagickTrue );
 	displayFile( tmpFile );
 
 	efremove( tmpFile, "removes temporary show-to-user file" );
-	free( tmpFile );
+	//free( tmpFile );
 	return false;
 }
