@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 				current = response - 1;
 				printf("state: %s\n", statetable[current].name );
 
-				while((response = vmenuscr( 8, "Return to List", "Rename state", "Preview state", "Edit state", "Add/Remove Frames", "Display state info", "Add state before", "Add state after" )))
+				while((response = vmenuscr( 8, "Return to List", "Rename state", "Preview state", "Edit state", "Modify Frames", "Display state info", "Add state before", "Add state after" )))
 				{
 					switch( response )
 					{
@@ -100,10 +100,25 @@ int main(int argc, char *argv[])
 							i -= '0';
 							break;
 						}
-						if( i == 0 ) break;
-						makeOffsetSpace( (statetable[current].offset + statetable[current].size) - 1, i * statetable[current].dirs );
+						if( i ) 
+							makeOffsetSpace( (statetable[current].offset + statetable[current].size) - 1, i * statetable[current].dirs );
 						statetable[current].frames += i;
 						recalculateOffsets(0);
+
+						for( i = 0; i < statetable[current].frames; i++ )
+						{
+							j = 0;
+							printf("Delay setting for frame %u (blank to leave as %u): ", i + 1, statetable[current].delay[i]);
+							while( true )
+							{
+								fgets( buf, MAXNAME - 1, stdin );
+								j = strtoul( buf, NULL, 10 );
+
+								if(!j) continue;
+								statetable[current].delay[i] = j;
+								break;
+							}
+						}
 
 						break;
 
