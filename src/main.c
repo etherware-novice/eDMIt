@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 				current = statetable + (response - 1);
 				printf("state: %s\n", current->name );
 
-				while((response = vmenuscr( 4, "Return to List", "Preview state", "Edit state", "Display state info" )))
+				while((response = vmenuscr( 5, "Return to List", "Preview state", "Edit state", "Add/Remove Frames", "Display state info" )))
 				{
 					switch( response )
 					{
@@ -81,6 +81,21 @@ int main(int argc, char *argv[])
 						break;
 
 						case 3:
+						puts("How many frames to add/remove? (Negative for remove)");
+						while((i = getchar()))
+						{
+							if( !isdigit(i) ) continue;
+							i -= '0';
+							break;
+						}
+						if( i == 0 ) break;
+						makeOffsetSpace( (current->offset + current->size) - 1, i * current->dirs );
+						current->frames += i;
+						recalculateOffsets(0);
+
+						break;
+
+						case 4:
 						printf("\n-----%s-----\n", current->name);
 						printf("directions: %u\t", current->dirs);
 						printf("anim frames: %u\n", current->frames);
