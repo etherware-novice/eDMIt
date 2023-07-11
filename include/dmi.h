@@ -96,6 +96,7 @@ void displayFile( const char *path );				// displays file path
 // imagewand.c - image manipulation with imagemagick
 bool calculateOffsetPos( unsigned offset, unsigned *x, unsigned *y );	// calculates the topleft position of the offset into the statetable, returns false if the position is out of bounds
 MagickWand *eLoadImg( const char *path );									// loads image at path into wand, returns
+void touchImage( const char *path, const char *color, unsigned x, unsigned y );					// creates a new blank image at the file path specified
 void resizeWand( MagickWand *mw, unsigned xNew, unsigned yNew );						// resizes mw to xnew, ynew
 void addSize( MagickWand *mw, int xMov, int yMov );								// adds xmov and ymov to size of wand
 void multSize( MagickWand *mw, double xMov, double yMov );							// multiplies current x and y of wand by xmov/ymov

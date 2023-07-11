@@ -51,6 +51,21 @@ MagickWand *eLoadImg( const char *path )
 	return mw;
 }
 
+void touchImage( const char *path, const char *color, unsigned x, unsigned y )
+{
+	const char *tmp = "tmp.png";
+
+	PixelWand *pw = NewPixelWand();
+	PixelSetColor( pw, color );
+
+	MagickWand *mw = NewMagickWand();
+	MagickNewImage( mw, x, y, pw );
+
+	MagickWriteImage( mw, tmp );
+	copyFile( path, tmp );
+	//remove(tmp);
+}
+
 void resizeWand( MagickWand *mw, unsigned xNew, unsigned yNew )
 {
 	MagickExtentImage( mw, xNew, yNew, 0, 0 );
