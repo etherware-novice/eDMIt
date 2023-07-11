@@ -143,7 +143,7 @@ bool displayAndConf( MagickWand *displayed )
 {
 	const char *tmpFile = NULL;
 	if( fsource )
-		char *tmpFile = GETFSUF( "prev.gif" );
+		tmpFile = GETFSUF( "prev.gif" );
 	else
 		tmpFile = "tempDisplay.gif";
 

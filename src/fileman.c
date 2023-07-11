@@ -94,10 +94,10 @@ void fwritecrc32( FILE *source, unsigned long bytes, bool bend )
 void copyFile( const char *dst, const char *src )
 {
 	FILE *fdst = efopen( dst, "wb", "copying file: destination" );
-	if( errno ) return;
+	if( !fdst ) return;
 
 	FILE *fsrc = efopen( src, "rb", "copying file: source" );
-	if( errno ) return;
+	if( !fsrc ) return;
 
 	size_t read, write;
 	unsigned char buf[8192];
