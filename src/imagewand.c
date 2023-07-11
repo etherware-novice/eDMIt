@@ -138,8 +138,12 @@ MagickWand *makeGif( MagickWand *frames, const unsigned *timing )
 	{
 		curFrame = MagickGetImage( frames );
 		printf("%u\n", *timing);
-		for( i = 0; i < *timing; i++ )
+
+		i = 0;
+		do
 			MagickAddImage( gif, curFrame );
+		while
+			( ++i < *timing );
 
 		DestroyMagickWand(curFrame);
 		//MagickNextImage( frames );
