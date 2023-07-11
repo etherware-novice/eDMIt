@@ -107,6 +107,26 @@ void arrshiftbw( void *arr, unsigned start, size_t size, size_t nmemb )
 	memset( (cast - start) + (arrBytes - size), 0, size );
 }
 
+void fgetsln( char *s, int size, FILE *stream )
+{
+	unsigned short i;
+
+	do
+		fgets( s, size, stream );
+	while
+		s[0] == '\n';
+
+	for( i = 0; i < size; i++ )
+	{
+		if( s[i] != '\n' ) continue;
+		s[i] = '\0';
+		break;
+	}
+
+	while((size = fgetc(stream) != '\0')) 
+		if( size == '\n' ) break;
+}
+
 void fswapos( FILE *stream, long *pos )
 {
 	long buf = ftell(stream);
