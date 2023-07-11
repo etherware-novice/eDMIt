@@ -16,8 +16,6 @@ unsigned height;
 // this is going to be a disaster
 void loadStateTable( const char *path )
 {
-	if( fsource ) free(fsource);
-	fsource = sncatf( NULL, "%s", path );
 	width = 0;
 	height = 0;
 
@@ -61,6 +59,9 @@ void loadStateTable( const char *path )
 
 	free( rawText );
 	fclose( target );
+
+	if( fsource ) free(fsource);
+	fsource = sncatf( NULL, "%s", path );
 
 	recalculateOffsets(0);
 	fcopyTemp( "~", "" );

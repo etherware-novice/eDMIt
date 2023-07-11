@@ -20,23 +20,58 @@ void clean(void)
 
 int main(int argc, char *argv[])
 {
-	if( argc < 2 )
-	{
-		fputs("Please pass a dmi file to parse!\n", stderr);
-		return ENOENT;
-	}
+	char buf[MAXNAME];
+	unsigned current, response, i, j;
 
-	loadStateTable(argv[1]);
+	if( argc > 1 )
+		loadStateTable(argv[1]);
+
+	if( !fsource )
+	{
+		puts("Provide a filename to load (or create)");
+		fgets( buf, MAXNAME - 1, stdin );
+
+		for( j = 0; j < MAXNAME; j++ )
+		{
+			if( buf[j] != '\n' ) continue;
+			buf[j] = '\0';
+			break;
+		};
+
+		loadStateTable(buf);
+
+		if( !fsource )
+		{
+			width = 32;
+			pngwidth = width;
+
+			height = 32;
+			pngheight = width;
+
+			snprintf( statetable[0].name, MAXNAME - 1, "placeholder" );
+			statetable[0].frames = 1;
+			statetable[0].dirs = 1;
+
+			statetable[0].delay = malloc(sizeof(unsigned));
+			*(statetable[0].delay) = 1;
+
+			statetable[0].size = 1;
+
+			fsource = sncatf( NULL, "%s", buf );
+			touchImage( buf, "none", pngwidth, pngheight );
+
+			fcopyTemp( "~", "" );
+			fcopyTemp( FWORK, "");
+		}
+	}
 
 	printf("loaded file %s (%u x %u)\n\n", fsource, pngwidth, pngheight);
 
 
-	char buf[MAXNAME];
 	char **arr = NULL;
 	MagickWand *mw = NULL;
 	MagickWand *swapmw = NULL;
 
-	unsigned current, response, i, j;
 	while((response = vmenuscr( 5, "Save and Quit", "Edit iconstates", "Display general info", "Display all iconstate info", "Preview full dmi")))
 	{
 		switch( response )
