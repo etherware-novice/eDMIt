@@ -114,7 +114,7 @@ void fgetsln( char *s, int size, FILE *stream )
 	do
 		fgets( s, size, stream );
 	while
-		s[0] == '\n';
+		(s[0] == '\n');
 
 	for( i = 0; i < size; i++ )
 	{
