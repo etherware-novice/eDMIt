@@ -96,7 +96,7 @@ void makeOffsetSpace( unsigned offset, int spaces )
 	free(buf);
 }
 
-void swapEditState( iconstate data, int dir )
+void swapEditState( iconstate data, int dir, const char *edit )
 {
 	MagickWand *state = constructStateWand( data, dir );
 	MagickResetIterator( state );
@@ -110,8 +110,10 @@ void swapEditState( iconstate data, int dir )
 	MagickWriteImages( strip, tmp, MagickTrue );
 	DestroyMagickWand( strip );
 
-	getchar();
-	getchar();
+	if( edit )
+		system(edit);
+	else
+		getchar();
 
 	strip = eLoadImg( tmp );
 	state = eLoadImg( work );

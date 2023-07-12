@@ -66,7 +66,7 @@ void recalculateOffsets( unsigned start );	// recalculates the offsets var on th
 char **arrayOfStateNames( unsigned *size );				// gets malloced array of state names, writes total to size
 void moveOffsetToOffset( MagickWand *mw, unsigned dst, unsigned src, bool expand );	// copies offset src on top of offset dst, if oob and expand is true it will increase size
 void makeOffsetSpace( unsigned offset, int spaces );			// either makes more space after offset, or removes icons after offset if negative ( -2 would remove offset and the next state )
-void swapEditState( iconstate data, int dir );				// writes the states to FTMP, waits, then writes it back into FWORK
+void swapEditState( iconstate data, int dir, const char *edit );	// writes the states to FTMP, waits, then writes it back into FWORK, calling system with the edit 
 MagickWand *constructStateWand( iconstate data, int dir );		// constructs statewand for state, for direction dir (or all if -1) (not implemented)
 void writeStateTable( const char *base, const char *path );		// copies the png base from base to path, inserting state table
 void writeStateWork(void);						// autofills writestatetable with fsource+FWORK and fsource
@@ -90,6 +90,7 @@ void arrshiftfw( void *arr, unsigned start, size_t size, size_t nmemb );	// shif
 void arrshiftbw( void *arr, unsigned start, size_t size, size_t nmemb );	// shifts array backward one starting at start, zeroing the last entry and discarding start
 
 void fgetsln( char *s, int size, FILE *stream );		// fgets a line, removes the newline from s, and skip up to the next newline from stream
+char *strplace( const char *source, const char *find, const char *replace );	// mallocs a new array of source, with find replaced by replace
 void fswapos( FILE *stream, long *pos );			// seeks to pos, saves old stream position to pos
 char *sncatf( char *str, const char *format, ... );		// takes a MALLOCED char array of size `size`, appends formatted string, updates size pointer to new size of block nd returns
 void displayFile( const char *path );				// displays file path

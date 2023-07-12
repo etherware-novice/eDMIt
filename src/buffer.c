@@ -127,6 +127,32 @@ void fgetsln( char *s, int size, FILE *stream )
 		if( size == '\n' ) break;
 }
 
+char *strplace( const char *source, const char *find, const char *replace )
+{
+	unsigned i = 0;
+	const size_t findSize = strlen(find);
+	const size_t replaceSize = strlen(replace);
+	char *buf = malloc(sizeof(char) * strlen(source) * replaceSize);
+
+	while( *source != '\0' )
+	{
+		if(!strncmp( source, find, findSize )) 
+		{
+			memcpy( buf + i, replace, replaceSize );
+			i += replaceSize;
+			source += findSize;
+		}
+		else
+		{
+			buf[i++] = *source;
+			source++;
+		}
+	}
+
+	buf[i] = '\0';
+	return realloc( buf, strlen(buf) + 1 );
+}
+
 void fswapos( FILE *stream, long *pos )
 {
 	long buf = ftell(stream);

@@ -123,8 +123,24 @@ int main(int argc, char *argv[])
 								break;
 							}
 						}
-						printf("Loaded state into file ext %s, press enter when modifications are done\n", FTMP);
-						swapEditState( statetable[current], i );
+						printf("Plesae input the program's commandline name to open file %s (or open externally), replacing $ with the filename\n", FTMP);
+
+						fgets( buf, MAXNAME - 1, stdin );
+
+						free(arr);
+						arr = calloc(2, sizeof( char * ));
+						if( buf[0] != '\n' ) 
+						{
+							arr[1] = GETFSUF( FTMP );
+							arr[0] = strplace( buf, "$", arr[1] );
+							free(arr[1]);
+
+						}
+						swapEditState( statetable[current], i, arr[0] );
+						
+						free(arr[0]);
+						free(arr);
+						arr = NULL;
 						break;
 
 						case 4:
